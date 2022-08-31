@@ -8,9 +8,11 @@ process VARDICTJAVA {
         'https://depot.galaxyproject.org/singularity/vardict-java:1.8.3--hdfd78af_0':
         'quay.io/biocontainers/vardict-java:1.8.3--hdfd78af_0' }"
 
+    
     input:
-    tuple val(meta), path(bam), path(bai), path(bed)
-    tuple path(fasta), path(fasta_fai)
+    tuple val(meta), path(reads)
+    //tuple val(meta), path(reads), path(bed)
+    //tuple path(fasta), path(fasta_fai)
 
     output:
     tuple val(meta), path("*.vcf.gz"), emit: vcf
@@ -28,16 +30,17 @@ process VARDICTJAVA {
     vardict-java \\
         $args \\
         -c 1 -S 2 -E 3 \\
-        -b $bam \\
+        -b ${reads} \\
         -th $task.cpus \\
         -N $prefix \\
-        -G $fasta \\
-        $bed \\
+        -G /home/msevilla/Escritorio/mosaicism_nextflow-main/hg19.fa \\
+        /home/msevilla/Escritorio/mosaicism_nextflow-main/bed.bed
         | teststrandbias.R \\
         | var2vcf_valid.pl \\
             $args2 \\
             -N $prefix \\
         | gzip -c > ${prefix}.vcf.gz
+
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
@@ -46,3 +49,25 @@ process VARDICTJAVA {
     END_VERSIONS
     """
 }
+
+
+
+
+/*
+original with bed argument
+    vardict-java \\
+       $args \\
+        -c 1 -S 2 -E 3 \\
+        -b ${reads} \\
+        -th $task.cpus \\
+        -N $prefix \\
+        -G /home/msevilla/Escritorio/mosaicism_nextflow-main/hg19.fa \\
+        $bed \\
+        | teststrandbias.R \\
+        | var2vcf_valid.pl \\
+           $args2 \\
+           -N $prefix \\
+        | gzip -c > ${prefix}.vcf.gz
+*/
+
+

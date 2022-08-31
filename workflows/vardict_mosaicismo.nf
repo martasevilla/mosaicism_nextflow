@@ -4,7 +4,6 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-
 def summary_params = NfcoreSchema.paramsSummaryMap(workflow, params)
 
 // Validate input parameters
@@ -12,7 +11,7 @@ WorkflowMosaicismo.initialise(params, log)
 
 // TODO nf-core: Add all file path parameters for the pipeline to the list below
 // Check input path parameters to see if they exist
-def checkPathParamList = [ params.input, params.multiqc_config, params.fasta ]
+def checkPathParamList = [ params.input, params.fasta ]
 for (param in checkPathParamList) { if (param) { file(param, checkIfExists: true) } }
 
 // Check mandatory parameters
@@ -22,7 +21,9 @@ if (params.input) { ch_input = file(params.input) } else { exit 1, 'Input sample
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     CONFIG FILES
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+esto en principio no lo necesito
 */
+
 
 ch_multiqc_config        = file("$projectDir/assets/multiqc_config.yml", checkIfExists: true)
 ch_multiqc_custom_config = params.multiqc_config ? Channel.fromPath(params.multiqc_config) : Channel.empty()
@@ -36,8 +37,10 @@ ch_multiqc_custom_config = params.multiqc_config ? Channel.fromPath(params.multi
 //
 // SUBWORKFLOW: Consisting of a mix of local and nf-core/modules
 //
-include { INPUT_CHECK } from '../subworkflows/local/input_check'
+
 include { INPUT_CHECK_BAM } from '../subworkflows/local/input_check'
+
+
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -48,8 +51,9 @@ include { INPUT_CHECK_BAM } from '../subworkflows/local/input_check'
 //
 // MODULE: Installed directly from nf-core/modules
 //
-include { FASTQC                      } from '../modules/nf-core/modules/fastqc/main'
-include { VARDICTJAVA                     } from '../modules/nf-core/modules/vardictjava/main'
+include { SAMTOOLS_MPILEUP          } from '/home/msevilla/Escritorio/mosaicism_nextflow-main/modules/nf-core/modules/samtools/mpileup/main'
+include { SAMTOOLS_SORT          } from '/home/msevilla/Escritorio/mosaicism_nextflow-main/modules/nf-core/modules/samtools/sort/main'
+include { VARSCAN                     } from '/home/msevilla/Escritorio/mosaicism_nextflow-main/modules/local/varscan/main'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -60,8 +64,7 @@ include { VARDICTJAVA                     } from '../modules/nf-core/modules/var
 // Info required for completion email and summary
 
 
-
-workflow MOSAICISMO {
+workflow VARDICT_MOSAICISMO {
 
     ch_versions = Channel.empty()
 
@@ -77,17 +80,25 @@ workflow MOSAICISMO {
    
 
       //
-    // MODULE: Run vardict
+    // MODULE: Run SAMTOOLS_MPILEUP
     //
-   
-    VARDICTJAVA (
+
+    SAMTOOLS_SORT(
         INPUT_CHECK_BAM.out.reads
     )
- 
-    ch_versions = ch_versions.mix(VARDICTJAVA.out.versions.first())
+    SAMTOOLS_MPILEUP(
+
+        SAMTOOLS_SORT.out.sort
 
 
+    )
+      
+    VARSCAN(
 
+        SAMTOOLS_MPILEUP.out.mpileup
+
+
+    )
 
    
 }
