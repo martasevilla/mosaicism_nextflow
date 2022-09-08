@@ -1,6 +1,6 @@
 process VARDICTJAVA {
     tag "$meta.id"
-    label 'process_medium'
+    label 'process_low'
 
     // WARN: Version information not provided by tool on CLI. Please update version string below when bumping container versions.
     conda (params.enable_conda ? "bioconda::vardict-java=1.8.3" : null)
@@ -8,14 +8,13 @@ process VARDICTJAVA {
         'https://depot.galaxyproject.org/singularity/vardict-java:1.8.3--hdfd78af_0':
         'quay.io/biocontainers/vardict-java:1.8.3--hdfd78af_0' }"
 
-    
     input:
-    tuple val(meta), path(reads)
-    //tuple val(meta), path(reads), path(bed)
-    //tuple path(fasta), path(fasta_fai)
+    tuple val(meta), path(input) //path(bam), path(bai), path(bed)
+    path(fasta)
+    path(fasta_fai)
 
     output:
-    tuple val(meta), path("*.vcf.gz"), emit: vcf
+    tuple val(meta), path("*.vcf"), emit: vcf_vardictjava
     path "versions.yml"              , emit: versions
 
     when:
@@ -30,17 +29,16 @@ process VARDICTJAVA {
     vardict-java \\
         $args \\
         -c 1 -S 2 -E 3 \\
-        -b ${reads} \\
+        -b ${input[0]} \\
         -th $task.cpus \\
         -N $prefix \\
-        -G /home/msevilla/Escritorio/mosaicism_nextflow-main/hg19.fa \\
-        /home/msevilla/Escritorio/mosaicism_nextflow-main/bed.bed
+        -G $fasta \\
+        ${input[2]} \\
         | teststrandbias.R \\
         | var2vcf_valid.pl \\
             $args2 \\
-            -N $prefix \\
-        | gzip -c > ${prefix}.vcf.gz
-
+            -N $prefix > ${prefix}_vardictjava.vcf #\\
+        #| gzip -c > ${prefix}_vardictjava.vcf.gz
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
@@ -50,24 +48,4 @@ process VARDICTJAVA {
     """
 }
 
-
-
-
-/*
-original with bed argument
-    vardict-java \\
-       $args \\
-        -c 1 -S 2 -E 3 \\
-        -b ${reads} \\
-        -th $task.cpus \\
-        -N $prefix \\
-        -G /home/msevilla/Escritorio/mosaicism_nextflow-main/hg19.fa \\
-        $bed \\
-        | teststrandbias.R \\
-        | var2vcf_valid.pl \\
-           $args2 \\
-           -N $prefix \\
-        | gzip -c > ${prefix}.vcf.gz
-*/
-
-
+// la linea de -c -S -E iría el configuración?
