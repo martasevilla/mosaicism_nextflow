@@ -28,6 +28,8 @@ class RowChecker:
     VALID_FORMATS = (
         ".fq.gz",
         ".fastq.gz",
+        ".bam",
+        ".bai"
     )
 
     def __init__(
@@ -36,6 +38,8 @@ class RowChecker:
         first_col="fastq_1",
         second_col="fastq_2",
         single_col="single_end",
+        bam_col="bam",
+        bai_col="bai",
         **kwargs,
     ):
         """
@@ -58,6 +62,8 @@ class RowChecker:
         self._first_col = first_col
         self._second_col = second_col
         self._single_col = single_col
+        self._bam_col = bam_col
+        self._bai_col = bai_col
         self._seen = set()
         self.modified = []
 
@@ -88,6 +94,11 @@ class RowChecker:
         assert len(row[self._first_col]) > 0, "At least the first FASTQ file is required."
         self._validate_fastq_format(row[self._first_col])
 
+    def _validate_first(self, row):
+        """Assert that the bam entry is non-empty and has the right format."""
+        assert len(row[self._bam_col]) > 0, "At least the bam file is required."
+        self._validate_fastq_format(row[self._first_col])
+
     def _validate_second(self, row):
         """Assert that the second FASTQ entry has the right format if it exists."""
         if len(row[self._second_col]) > 0:
@@ -102,6 +113,9 @@ class RowChecker:
             ), "FASTQ pairs must have the same file extensions."
         else:
             row[self._single_col] = True
+
+
+
 
     def _validate_fastq_format(self, filename):
         """Assert that a given filename has one of the expected FASTQ extensions."""
@@ -190,7 +204,7 @@ def check_samplesheet(file_in, file_out):
         https://raw.githubusercontent.com/nf-core/test-datasets/viralrecon/samplesheet/samplesheet_test_illumina_amplicon.csv
 
     """
-    required_columns = {"sample", "fastq_1", "fastq_2"}
+    required_columns = {"sample", "fastq_1", "fastq_2","bam","bai"}
     # See https://docs.python.org/3.9/library/csv.html#id3 to read up on `newline=""`.
     with file_in.open(newline="") as in_handle:
         reader = csv.DictReader(in_handle, dialect=sniff_format(in_handle))

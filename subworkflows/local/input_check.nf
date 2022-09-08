@@ -24,8 +24,9 @@ workflow INPUT_CHECK {
 def create_fastq_channel(LinkedHashMap row) {
     // create meta map
     def meta = [:]
-    meta.id         = row.sample
-    meta.single_end = row.single_end.toBoolean()
+    meta.id           = row.sample
+    meta.single_end   = row.single_end.toBoolean()
+    meta.strandedness = row.strandedness
 
     // add path(s) of the fastq file(s) to the meta map
     def fastq_meta = []
@@ -42,3 +43,35 @@ def create_fastq_channel(LinkedHashMap row) {
     }
     return fastq_meta
 }
+
+workflow INPUT_CHECK_BAM {
+    take:
+    samplesheet // file: /path/to/samplesheet.csv
+
+    main:
+    SAMPLESHEET_CHECK ( samplesheet )
+        .csv
+        .splitCsv ( header:true, sep:',' )
+        .map { create_bam_channel(it) }
+        .set { reads }
+
+    emit:
+    reads                                     // channel: [ val(meta), [ reads ] ]
+    versions = SAMPLESHEET_CHECK.out.versions // channel: [ versions.yml ]
+}
+
+// Function to get list of [ meta, [ bam, bai ] ]
+def create_bam_channel(LinkedHashMap row) {
+    // create meta map
+    def meta = [:]
+    meta.id           = row.sample
+    // add path(s) of the bam and bai file(s) to the meta map
+    def bam_meta = []
+    if (!file(row.bam).exists()) {
+        exit 1, "ERROR: Please check input samplesheet -> Bam file does not exist!\n${row.bam}"
+    }
+   
+        bam_meta = [ meta, [ file(row.bam)] ]
+  
+    return bam_meta
+  }
