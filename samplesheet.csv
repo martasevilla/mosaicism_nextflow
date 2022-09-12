@@ -1,2 +1,0 @@
-sample,fastq_1,fastq_2,bam,bai
-test_sample,/media/msevilla/SEAGATE_9/descarga_fastq_211215/3262942_Ref_4574650680/3262942_S1_L001_R1_001.fastq.gz,/media/msevilla/SEAGATE_9/descarga_fastq_211215/3262942_Ref_4574650680/3262942_S1_L001_R2_001.fastq.gz,/home/msevilla/Escritorio/mosaicism_nextflow-main/my.bam,/home/msevilla/Escritorio/mosaicism_nextflow-main/my.bam.bai
