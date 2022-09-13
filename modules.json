@@ -1,0 +1,29 @@
+{
+    "name": "nf-core/mosaicism",
+    "homePage": "https://github.com/nf-core/mosaicism",
+    "repos": {
+        "nf-core/modules": {
+            "bedtools/intersect": {
+                "git_sha": "e745e167c1020928ef20ea1397b6b4d230681b4d"
+            },
+            "custom/dumpsoftwareversions": {
+                "git_sha": "e745e167c1020928ef20ea1397b6b4d230681b4d"
+            },
+            "fastqc": {
+                "git_sha": "e745e167c1020928ef20ea1397b6b4d230681b4d"
+            },
+            "multiqc": {
+                "git_sha": "e745e167c1020928ef20ea1397b6b4d230681b4d"
+            },
+            "samtools/mpileup": {
+                "git_sha": "5e7b1ef9a5a2d9258635bcbf70fcf37dacd1b247"
+            },
+            "samtools/sort": {
+                "git_sha": "897c33d5da084b61109500ee44c01da2d3e4e773"
+            },
+            "vardictjava": {
+                "git_sha": "eab173f2bb8c44223bbe533ea169557455c9ceee"
+            }
+        }
+    }
+}
