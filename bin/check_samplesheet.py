@@ -18,29 +18,27 @@ logger = logging.getLogger()
 class RowChecker:
     """
     Define a service that can validate and transform each given row.
-
     Attributes:
         modified (list): A list of dicts, where each dict corresponds to a previously
             validated and transformed row. The order of rows is maintained.
-
     """
 
     VALID_FORMATS = (
         ".fq.gz",
         ".fastq.gz",
+        ".bam",
+        ".bai"
     )
 
     def __init__(
         self,
         sample_col="sample",
-        first_col="fastq_1",
-        second_col="fastq_2",
-        single_col="single_end",
+        bam_col="bam",
+        bai_col="bai",
         **kwargs,
     ):
         """
         Initialize the row checker with the expected column names.
-
         Args:
             sample_col (str): The name of the column that contains the sample name
                 (default "sample").
@@ -51,24 +49,23 @@ class RowChecker:
             single_col (str): The name of the new column that will be inserted and
                 records whether the sample contains single- or paired-end sequencing
                 reads (default "single_end").
-
         """
         super().__init__(**kwargs)
         self._sample_col = sample_col
         self._first_col = first_col
         self._second_col = second_col
         self._single_col = single_col
+        self._bam_col = bam_col
+        self._bai_col = bai_col
         self._seen = set()
         self.modified = []
 
     def validate_and_transform(self, row):
         """
         Perform all validations on the given row and insert the read pairing status.
-
         Args:
             row (dict): A mapping from column headers (keys) to elements of that row
                 (values).
-
         """
         self._validate_sample(row)
         self._validate_first(row)
@@ -88,6 +85,11 @@ class RowChecker:
         assert len(row[self._first_col]) > 0, "At least the first FASTQ file is required."
         self._validate_fastq_format(row[self._first_col])
 
+    def _validate_first(self, row):
+        """Assert that the bam entry is non-empty and has the right format."""
+        assert len(row[self._bam_col]) > 0, "At least the bam file is required."
+        self._validate_fastq_format(row[self._first_col])
+
     def _validate_second(self, row):
         """Assert that the second FASTQ entry has the right format if it exists."""
         if len(row[self._second_col]) > 0:
@@ -103,6 +105,9 @@ class RowChecker:
         else:
             row[self._single_col] = True
 
+
+
+
     def _validate_fastq_format(self, filename):
         """Assert that a given filename has one of the expected FASTQ extensions."""
         assert any(filename.endswith(extension) for extension in self.VALID_FORMATS), (
@@ -113,10 +118,8 @@ class RowChecker:
     def validate_unique_samples(self):
         """
         Assert that the combination of sample name and FASTQ filename is unique.
-
         In addition to the validation, also rename the sample if more than one sample,
         FASTQ file combination exists.
-
         """
         assert len(self._seen) == len(self.modified), "The pair of sample name and FASTQ must be unique."
         if len({pair[0] for pair in self._seen}) < len(self._seen):
@@ -142,17 +145,13 @@ def read_head(handle, num_lines=10):
 def sniff_format(handle):
     """
     Detect the tabular format.
-
     Args:
         handle (text file): A handle to a `text file`_ object. The read position is
         expected to be at the beginning (index 0).
-
     Returns:
         csv.Dialect: The detected tabular format.
-
     .. _text file:
         https://docs.python.org/3/glossary.html#term-text-file
-
     """
     peek = read_head(handle)
     handle.seek(0)
@@ -167,30 +166,24 @@ def sniff_format(handle):
 def check_samplesheet(file_in, file_out):
     """
     Check that the tabular samplesheet has the structure expected by nf-core pipelines.
-
     Validate the general shape of the table, expected columns, and each row. Also add
     an additional column which records whether one or two FASTQ reads were found.
-
     Args:
         file_in (pathlib.Path): The given tabular samplesheet. The format can be either
             CSV, TSV, or any other format automatically recognized by ``csv.Sniffer``.
         file_out (pathlib.Path): Where the validated and transformed samplesheet should
             be created; always in CSV format.
-
     Example:
         This function checks that the samplesheet follows the following structure,
         see also the `viral recon samplesheet`_::
-
             sample,fastq_1,fastq_2
             SAMPLE_PE,SAMPLE_PE_RUN1_1.fastq.gz,SAMPLE_PE_RUN1_2.fastq.gz
             SAMPLE_PE,SAMPLE_PE_RUN2_1.fastq.gz,SAMPLE_PE_RUN2_2.fastq.gz
             SAMPLE_SE,SAMPLE_SE_RUN1_1.fastq.gz,
-
     .. _viral recon samplesheet:
         https://raw.githubusercontent.com/nf-core/test-datasets/viralrecon/samplesheet/samplesheet_test_illumina_amplicon.csv
-
     """
-    required_columns = {"sample", "fastq_1", "fastq_2"}
+    required_columns = {"sample","bam","bai"}
     # See https://docs.python.org/3.9/library/csv.html#id3 to read up on `newline=""`.
     with file_in.open(newline="") as in_handle:
         reader = csv.DictReader(in_handle, dialect=sniff_format(in_handle))
