@@ -38,7 +38,7 @@ if (params.fai) { ch_fasta_fai = file(params.fai) } else { exit 1, 'Fasta.fai fi
 //
 include { INPUT_CHECK_BAM } from '../subworkflows/local/input_check'
 include { INPUT_CHECK_BED } from '../subworkflows/local/input_check'
-
+include { INPUT_CHECK_VARDICTJAVA } from '../subworkflows/local/input_check'
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     IMPORT NF-CORE MODULES/SUBWORKFLOWS
@@ -59,8 +59,6 @@ include { VARSCAN } from '../modules/local/varscan/main'
 */
 
 // Info required for completion email and summary
-def multiqc_report = []
-
 workflow VARSCAN_MOSAICISM {
 
     ch_versions = Channel.empty()
@@ -83,7 +81,8 @@ workflow VARSCAN_MOSAICISM {
     //
     
     SAMTOOLS_MPILEUP (
-    	SAMTOOLS_SORT.out.bam, ch_fasta
+    	//SAMTOOLS_SORT.out.bam, ch_fasta
+        INPUT_CHECK_VARDICTJAVA.out.vardictjava
     )
     
     //
