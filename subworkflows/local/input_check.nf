@@ -9,17 +9,28 @@ workflow INPUT_CHECK {
     samplesheet // file: /path/to/samplesheet.csv
 
     main:
-    SAMPLESHEET_CHECK ( samplesheet )
+    canal_sp = SAMPLESHEET_CHECK ( samplesheet )
         .csv
-        .splitCsv ( header:true, sep:',' )
-        .map {create_bam_bai_bed_channel(it)}
-        .set { reads }
+        .splitCsv ( header:true, sep:',' ) // canal donde cada elemento es una fila del csv
 
-    reads_bam = reads.flatten().first().concat(reads.flatten().filter(~/.*.bam/).toList()).toList()
+    canal_sp
+        .map {create_bam_bai_bed_channel(it)}
+        .set { reads_bam_bai_bed }
+
+    canal_sp
+        .map {create_bam_channel(it)}
+        .set { reads_bam }
+
+    canal_sp
+        .map {create_bed_channel(it)}
+        .set { reads_bed }
+
+    //reads_bam = reads.flatten().first().concat(reads.flatten().filter(~/.*.bam/).toList()).toList()
 
     emit:
-    reads // channel: [ meta, [ bam, bai, bed] ]
+    reads_bam_bai_bed // channel: [ meta, [ bam, bai, bed] ]
     reads_bam // channel: [ meta, [ bam ] ]
+    reads_bed // channel: [ meta, [ bed ] ]
     versions = SAMPLESHEET_CHECK.out.versions // channel: [ versions.yml ]
 
 }
@@ -46,6 +57,40 @@ def create_bam_bai_bed_channel(LinkedHashMap row) {
     }
 
     bam_meta = [ meta, file(row.bam), file(row.bai), file(row.bed) ]
+    //bam_meta = [ meta, [ file(row.bam)] ]
+
+    return bam_meta
+}
+
+def create_bam_channel(LinkedHashMap row) {
+    // create meta map
+    def meta = [:]
+    meta.id         = row.sample
+
+    // add path(s) of the bam/bai files to the meta map
+    def bam_meta = []
+    if (!file(row.bam).exists()) {
+        exit 1, "ERROR: Please check input samplesheet -> Bam file does not exist!\n${row.bam}"
+    }
+
+    bam_meta = [ meta, file(row.bam) ]
+    //bam_meta = [ meta, [ file(row.bam)] ]
+
+    return bam_meta
+}
+
+def create_bed_channel(LinkedHashMap row) {
+    // create meta map
+    def meta = [:]
+    meta.id         = row.sample
+
+    // add path(s) of the bam/bai files to the meta map
+
+    if (!file(row.bed).exists()) {
+        exit 1, "ERROR: Please check input samplesheet -> Bed file does not exist!\n${row.bed}"
+    }
+
+    bam_meta = [ meta, file(row.bed) ]
     //bam_meta = [ meta, [ file(row.bam)] ]
 
     return bam_meta
