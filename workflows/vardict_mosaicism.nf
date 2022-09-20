@@ -34,8 +34,8 @@ if (params.fai) { ch_fasta_fai = file(params.fai) } else { exit 1, 'Fasta.fai fi
 //
 // SUBWORKFLOW: Consisting of a mix of local and nf-core/modules
 //
-include { INPUT_CHECK_BAM } from '../subworkflows/local/input_check'
-include { INPUT_CHECK_BED } from '../subworkflows/local/input_check'
+include { CHECK_INPUT } from '../subworkflows/local/input_check'
+
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -64,14 +64,14 @@ workflow VARDICT_MOSAICISM {
     //
     // SUBWORKFLOW: Read in samplesheet, validate and stage input files
     //
-    INPUT_CHECK_BAM (
+    CHECK_INPUT (
         ch_input
     )
-    ch_versions = ch_versions.mix(INPUT_CHECK_BAM.out.versions)
+    ch_versions = ch_versions.mix(CHECK_INPUT.out.versions)
 
     //
     VARDICTJAVA (
-    	INPUT_CHECK_BAM.out.reads, ch_fasta, ch_fasta_fai
+    	CHECK_INPUT.out.vardictjava, ch_fasta, ch_fasta_fai
     ) 
 } 
 /*

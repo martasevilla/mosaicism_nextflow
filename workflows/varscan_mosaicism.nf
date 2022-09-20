@@ -36,8 +36,8 @@ if (params.fai) { ch_fasta_fai = file(params.fai) } else { exit 1, 'Fasta.fai fi
 //
 // SUBWORKFLOW: Consisting of a mix of local and nf-core/modules
 //
-include { INPUT_CHECK_BAM } from '../subworkflows/local/input_check'
-include { INPUT_CHECK_BED } from '../subworkflows/local/input_check'
+include { CHECK_INPUT } from '../subworkflows/local/input_check'
+
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -68,22 +68,21 @@ workflow VARSCAN_MOSAICISM {
     //
     // SUBWORKFLOW: Read in samplesheet, validate and stage input files
     //
-    INPUT_CHECK_BAM (
+    CHECK_INPUT (
         ch_input
     )
-    ch_versions = ch_versions.mix(INPUT_CHECK_BAM.out.versions)
+    ch_versions = ch_versions.mix(CHECK_INPUT.out.versions)
 
     SAMTOOLS_SORT (
-    	INPUT_CHECK_BAM.out.reads
+    	CHECK_INPUT.out.reads
     )
     
-
     //
     // MODULE: Run Samtools mpileup
     //
     
     SAMTOOLS_MPILEUP (
-    	SAMTOOLS_SORT.out.bam, ch_fasta
+    	SAMTOOLS_SORT.out.bam.join(CHECK_INPUT.out.bed), ch_fasta
     )
     
     //
