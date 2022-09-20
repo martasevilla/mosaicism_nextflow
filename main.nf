@@ -18,6 +18,7 @@ nextflow.enable.dsl = 2
 */
 
 params.fasta = WorkflowMain.getGenomeAttribute(params, 'fasta')
+params.fai = WorkflowMain.getGenomeAttribute(params, 'fai')
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -33,13 +34,15 @@ WorkflowMain.initialise(workflow, params, log)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-include { MOSAICISM } from './workflows/mosaicism'
+include { VARDICT_MOSAICISM } from './workflows/vardict_mosaicism'
+include { VARSCAN_MOSAICISM } from './workflows/varscan_mosaicism'
 
 //
 // WORKFLOW: Run main nf-core/mosaicism analysis pipeline
 //
 workflow NFCORE_MOSAICISM {
-    MOSAICISM ()
+    VARDICT_MOSAICISM ()
+    VARSCAN_MOSAICISM ()
 }
 
 /*
