@@ -5,6 +5,7 @@ results/
 testdata/
 work/
 null/
+output_dir/
 .DS_Store
 testing/
 testing*
