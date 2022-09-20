@@ -7,11 +7,14 @@ ch_fasta = Channel.fromPath( './testdata/hg19.fa')
 ch_fasta_fai = Channel.fromPath( './testdata/hg19.fa.fai')
 
 include { INPUT_CHECK } from './subworkflows/local/input_check'
-include { SAMTOOLS_SORT } from './modules/nf-core/modules/samtools/sort/main'
-include { SAMTOOLS_MPILEUP } from './modules/nf-core/modules/samtools/mpileup/main'
+include { VARSCAN_WF } from './subworkflows/local/varscan_workflow'
+
+
+//include { SAMTOOLS_SORT } from './modules/nf-core/modules/samtools/sort/main'
+//include { SAMTOOLS_MPILEUP } from './modules/nf-core/modules/samtools/mpileup/main'
 include { VARDICTJAVA } from './modules/nf-core/modules/vardictjava/main'
-include { VARSCAN } from './modules/local/varscan'
-include { TABIX_BGZIP } from "./modules/nf-core/modules/tabix/bgzip/main"
+//include { VARSCAN } from './modules/local/varscan'
+//include { TABIX_BGZIP } from "./modules/nf-core/modules/tabix/bgzip/main"
 include { BEDTOOLS_INTERSECT } from './modules/nf-core/modules/bedtools/intersect/main'
 
 workflow {
@@ -30,6 +33,17 @@ workflow {
   //  INPUT_CHECK.out.reads_bam_bai_bed.view()
   //   INPUT_CHECK.out.reads_bed.view()
 
+// sustituyo todo este trozo por un subworkflows
+
+    VARSCAN_WF(
+
+      INPUT_CHECK.out.reads_bam, INPUT_CHECK.out.reads_bed, ch_fasta
+
+      )
+
+    ch_versions = ch_versions.mix(VARSCAN_WF.out.ch_versions.first())
+
+/*
     SAMTOOLS_SORT (
     	INPUT_CHECK.out.reads_bam
     )
@@ -75,6 +89,7 @@ workflow {
 
     ch_versions = ch_versions.mix(VARSCAN.out.versions.first())
 
+*/
     //
     // MODULE: Run Vardictjava
     //
@@ -85,7 +100,7 @@ workflow {
 
     ch_versions = ch_versions.mix(VARDICTJAVA.out.versions.first())
 
-    ch_bedtools = VARDICTJAVA.out.vcf.join(VARSCAN.out.vcf_varscan)
+    ch_bedtools = VARDICTJAVA.out.vcf.join(VARSCAN_WF.out.varscan_out)
     ch_extension = Channel.of( "bed" )
     //ch_bedtools.view()
 
