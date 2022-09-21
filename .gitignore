@@ -5,11 +5,13 @@ results/
 testdata/
 work/
 null/
+output_dir/
 .DS_Store
 testing/
 testing*
 *.pyc
 oputput_reference_sample/
 *fa
+*fai
 *bam
 *bed

@@ -11,13 +11,14 @@ WorkflowMosaicism.initialise(params, log)
 
 // TODO nf-core: Add all file path parameters for the pipeline to the list below
 // Check input path parameters to see if they exist
-def checkPathParamList = [ params.input, params.multiqc_config, params.fasta ]
+def checkPathParamList = [ params.input, params.multiqc_config, params.fasta , params.fai]
 for (param in checkPathParamList) { if (param) { file(param, checkIfExists: true) } }
 
 // Check mandatory parameters
 if (params.input) { ch_input = file(params.input) } else { exit 1, 'Input samplesheet not specified!' }
 if (params.fasta) { ch_fasta = file(params.fasta) } else { exit 1, 'Fasta file not specified!' }
-if (params.fai) { ch_fasta_fai = file(params.fai) } else { exit 1, 'Fasta.fai file not specified!' }
+if (params.fai) { ch_fasta_fai = file(params.fai) } else { exit 1, 'Fai file not specified!' }
+
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     CONFIG FILES
@@ -36,7 +37,8 @@ if (params.fai) { ch_fasta_fai = file(params.fai) } else { exit 1, 'Fasta.fai fi
 //
 // SUBWORKFLOW: Consisting of a mix of local and nf-core/modules
 //
-include { CHECK_INPUT } from '../subworkflows/local/input_check'
+include { INPUT_CHECK } from '../subworkflows/local/input_check'
+include { VARSCAN_WF } from '../subworkflows/local/varscan_workflow'
 
 
 /*
@@ -48,9 +50,14 @@ include { CHECK_INPUT } from '../subworkflows/local/input_check'
 //
 // MODULE: Installed directly from nf-core/modules
 //
-include { SAMTOOLS_SORT                      } from '../modules/nf-core/modules/samtools/sort/main'
-include { SAMTOOLS_MPILEUP                     } from '../modules/nf-core/modules/samtools/mpileup/main'
-include { VARSCAN } from '../modules/local/varscan/main'
+
+include { CUSTOM_DUMPSOFTWAREVERSIONS } from '../modules/nf-core/modules/custom/dumpsoftwareversions/main'
+//include { SAMTOOLS_SORT } from '../modules/nf-core/modules/samtools/sort/main'
+//include { SAMTOOLS_MPILEUP } from '../modules/nf-core/modules/samtools/mpileup/main'
+include { VARDICTJAVA } from '../modules/nf-core/modules/vardictjava/main'
+//include { VARSCAN } from '../modules/local/varscan'
+//include { TABIX_BGZIP } from "../modules/nf-core/modules/tabix/bgzip/main"
+include { BEDTOOLS_INTERSECT } from '../modules/nf-core/modules/bedtools/intersect/main'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -59,42 +66,59 @@ include { VARSCAN } from '../modules/local/varscan/main'
 */
 
 // Info required for completion email and summary
-def multiqc_report = []
+//def multiqc_report = []
 
-workflow VARSCAN_MOSAICISM {
+//ch_input = Channel.fromPath( '../assets/samplesheet.csv' )
+//ch_fasta = Channel.fromPath( './testdata/hg19.fa')
+//ch_fasta_fai = Channel.fromPath( './testdata/hg19.fa.fai')
 
-    ch_versions = Channel.empty()
 
-    //
-    // SUBWORKFLOW: Read in samplesheet, validate and stage input files
-    //
-    CHECK_INPUT (
-        ch_input
-    )
-    ch_versions = ch_versions.mix(CHECK_INPUT.out.versions)
+workflow MOSAICISM {
 
-    SAMTOOLS_SORT (
-    	CHECK_INPUT.out.reads
+  ch_versions = Channel.empty()
+
+  //
+  // SUBWORKFLOW: Read in samplesheet, validate and stage input files
+  //
+  INPUT_CHECK (
+      ch_input
+  )
+  ch_versions = ch_versions.mix(INPUT_CHECK.out.versions)
+
+  VARSCAN_WF(
+
+    INPUT_CHECK.out.reads_bam, INPUT_CHECK.out.reads_bed, ch_fasta
+
     )
-    
-    //
-    // MODULE: Run Samtools mpileup
-    //
-    
-    SAMTOOLS_MPILEUP (
-    	SAMTOOLS_SORT.out.bam.join(CHECK_INPUT.out.bed), ch_fasta
-    )
-    
-    //
-    // MODULE: Run VarScan
-    //
-    
-    VARSCAN (
-    	SAMTOOLS_MPILEUP.out.mpileup
-    )
-    
-    
-}   
+
+  ch_versions = ch_versions.mix(VARSCAN_WF.out.ch_versions.first())
+
+  //
+  // MODULE: Run Vardictjava
+  //
+
+  VARDICTJAVA (
+    INPUT_CHECK.out.reads_bam_bai_bed, ch_fasta, ch_fasta_fai
+  )
+
+  ch_versions = ch_versions.mix(VARDICTJAVA.out.versions.first())
+
+  ch_bedtools = VARDICTJAVA.out.vcf.join(VARSCAN_WF.out.varscan_out)
+  ch_extension = Channel.of( "bed" )
+  //ch_bedtools.view()
+
+  BEDTOOLS_INTERSECT (
+    ch_bedtools, ch_extension
+  )
+
+  ch_versions = ch_versions.mix(BEDTOOLS_INTERSECT.out.versions.first())
+
+  CUSTOM_DUMPSOFTWAREVERSIONS (
+      ch_versions.unique().collectFile(name: 'collated_versions.yml')
+  )
+
+}
+
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     COMPLETION EMAIL AND SUMMARY

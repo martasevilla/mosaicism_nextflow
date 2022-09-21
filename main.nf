@@ -34,15 +34,13 @@ WorkflowMain.initialise(workflow, params, log)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-include { VARDICT_MOSAICISM } from './workflows/vardict_mosaicism'
-include { VARSCAN_MOSAICISM } from './workflows/varscan_mosaicism'
+include { MOSAICISM } from './workflows/mosaicism'
 
 //
 // WORKFLOW: Run main nf-core/mosaicism analysis pipeline
 //
 workflow NFCORE_MOSAICISM {
-    VARDICT_MOSAICISM ()
-    VARSCAN_MOSAICISM ()
+    MOSAICISM ()
 }
 
 /*
