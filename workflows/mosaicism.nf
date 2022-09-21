@@ -11,12 +11,13 @@ WorkflowMosaicism.initialise(params, log)
 
 // TODO nf-core: Add all file path parameters for the pipeline to the list below
 // Check input path parameters to see if they exist
-def checkPathParamList = [ params.input, params.multiqc_config, params.fasta ]
+def checkPathParamList = [ params.input, params.multiqc_config, params.fasta , params.fai]
 for (param in checkPathParamList) { if (param) { file(param, checkIfExists: true) } }
 
 // Check mandatory parameters
 if (params.input) { ch_input = file(params.input) } else { exit 1, 'Input samplesheet not specified!' }
-
+if (params.fasta) { ch_fasta = file(params.fasta) } else { exit 1, 'Fasta file not specified!' }
+if (params.fai) { ch_fasta_fai = file(params.fai) } else { exit 1, 'Fai file not specified!' }
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -68,8 +69,8 @@ include { BEDTOOLS_INTERSECT } from '../modules/nf-core/modules/bedtools/interse
 //def multiqc_report = []
 
 //ch_input = Channel.fromPath( '../assets/samplesheet.csv' )
-ch_fasta = Channel.fromPath( '../testdata/hg19.fa')
-ch_fasta_fai = Channel.fromPath( '../testdata/hg19.fa.fai')
+//ch_fasta = Channel.fromPath( './testdata/hg19.fa')
+//ch_fasta_fai = Channel.fromPath( './testdata/hg19.fa.fai')
 
 
 workflow MOSAICISM {
