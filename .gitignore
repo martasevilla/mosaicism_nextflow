@@ -12,5 +12,6 @@ testing*
 *.pyc
 oputput_reference_sample/
 *fa
+*fai
 *bam
 *bed
