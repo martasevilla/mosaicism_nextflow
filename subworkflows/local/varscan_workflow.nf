@@ -59,12 +59,10 @@ workflow VARSCAN_WF {
     varscan_out = VARSCAN.out.vcf_varscan
     ch_versions = ch_versions.mix(VARSCAN.out.versions.first())
 
-    //reads_bam = reads.flatten().first().concat(reads.flatten().filter(~/.*.bam/).toList()).toList()
-
     emit:
 
     varscan_out
-    //versions = SAMTOOLS_SORT.out.versions // channel: [ versions.yml ]
+    
     ch_versions
 
 }

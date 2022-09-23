@@ -74,13 +74,17 @@ workflow MOSAICISM {
   )
   ch_versions = ch_versions.mix(INPUT_CHECK.out.versions)
 
+  //
+  // SUBWORKFLOW: Run Samtools_sort, Samtools_mpileup and Varscan
+  //
+
   VARSCAN_WF(
 
     INPUT_CHECK.out.reads_bam, INPUT_CHECK.out.reads_bed, ch_fasta
 
     )
 
-  ch_versions = ch_versions.mix(VARSCAN_WF.out.ch_versions.first())
+  ch_versions = ch_versions.mix(VARSCAN_WF.out.ch_versions)
 
   //
   // MODULE: Run Vardictjava
@@ -92,9 +96,12 @@ workflow MOSAICISM {
 
   ch_versions = ch_versions.mix(VARDICTJAVA.out.versions.first())
 
+  ch_versions.mix(VARDICTJAVA.out.versions.first().view())
+  ch_versions.mix(VARDICTJAVA.out.versions.view())
+
   ch_bedtools = VARDICTJAVA.out.vcf.join(VARSCAN_WF.out.varscan_out)
   ch_extension = Channel.of( "bed" )
-  //ch_bedtools.view()
+
 
   BEDTOOLS_INTERSECT (
     ch_bedtools, ch_extension

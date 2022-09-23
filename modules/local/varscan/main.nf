@@ -24,5 +24,8 @@ process VARSCAN {
     """
         varscan mpileup2snp ${mpileup} --min-var-freq 0.2 --p-value 1 --output-vcf 1 | gzip -c > ${prefix}_varscan.vcf.gz
         cat <<-END_VERSIONS > versions.yml
+        #"${task.process}":
+        #varscan: \$(echo \$(varscan --version 2>&1) | sed 's/^.*varscan //; s/Using.*\$//' ))
+    END_VERSIONS
     """
 }
