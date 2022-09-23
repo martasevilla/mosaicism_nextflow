@@ -37,6 +37,7 @@ if (params.fai) { ch_fasta_fai = file(params.fai) } else { exit 1, 'Fai file not
 //
 // SUBWORKFLOW: Consisting of a mix of local and nf-core/modules
 //
+
 include { INPUT_CHECK } from '../subworkflows/local/input_check'
 include { VARSCAN_WF } from '../subworkflows/local/varscan_workflow'
 
@@ -52,11 +53,7 @@ include { VARSCAN_WF } from '../subworkflows/local/varscan_workflow'
 //
 
 include { CUSTOM_DUMPSOFTWAREVERSIONS } from '../modules/nf-core/modules/custom/dumpsoftwareversions/main'
-//include { SAMTOOLS_SORT } from '../modules/nf-core/modules/samtools/sort/main'
-//include { SAMTOOLS_MPILEUP } from '../modules/nf-core/modules/samtools/mpileup/main'
 include { VARDICTJAVA } from '../modules/nf-core/modules/vardictjava/main'
-//include { VARSCAN } from '../modules/local/varscan'
-//include { TABIX_BGZIP } from "../modules/nf-core/modules/tabix/bgzip/main"
 include { BEDTOOLS_INTERSECT } from '../modules/nf-core/modules/bedtools/intersect/main'
 
 /*
@@ -64,14 +61,6 @@ include { BEDTOOLS_INTERSECT } from '../modules/nf-core/modules/bedtools/interse
     RUN MAIN WORKFLOW
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
-
-// Info required for completion email and summary
-//def multiqc_report = []
-
-//ch_input = Channel.fromPath( '../assets/samplesheet.csv' )
-//ch_fasta = Channel.fromPath( './testdata/hg19.fa')
-//ch_fasta_fai = Channel.fromPath( './testdata/hg19.fa.fai')
-
 
 workflow MOSAICISM {
 

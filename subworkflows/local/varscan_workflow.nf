@@ -1,10 +1,10 @@
 //
-// Ejecuta Varscan (samtools_sort, samtools_mpileup, unzip, varscan)
+// Ejecuta todos los pasos necesarios para usar Varscan (samtools_sort, samtools_mpileup, unzip, varscan)
 //
 
 include { SAMTOOLS_SORT } from '../../modules/nf-core/modules/samtools/sort/main'
 include { SAMTOOLS_MPILEUP } from '../../modules/nf-core/modules/samtools/mpileup/main'
-include { VARSCAN } from '../../modules/local/varscan'
+include { VARSCAN } from '../../modules/local/varscan/main'
 include { TABIX_BGZIP } from "../../modules/nf-core/modules/tabix/bgzip/main"
 
 workflow VARSCAN_WF {
@@ -66,5 +66,5 @@ workflow VARSCAN_WF {
     varscan_out
     //versions = SAMTOOLS_SORT.out.versions // channel: [ versions.yml ]
     ch_versions
-    
+
 }
