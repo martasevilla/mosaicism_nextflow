@@ -2,9 +2,9 @@
 work/
 data/
 results/
-testdata/
 work/
 null/
+testdata/my_sorted.bam
 output_dir/
 .DS_Store
 testing/
@@ -13,5 +13,3 @@ testing*
 oputput_reference_sample/
 *fa
 *fai
-*bam
-*bed
