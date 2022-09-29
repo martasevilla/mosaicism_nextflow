@@ -1,1 +1,3 @@
-what here
+varscan:
+  - modules/local/varscan**
+  - tests/modules/varscan/**

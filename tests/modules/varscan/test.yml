@@ -1,0 +1,8 @@
+- name: 
+  command: nextflow run ./tests/modules/varscan/ -entry test_varscan -c ./tests/config/nextflow.config -c ./tests/modules/varscan/nextflow.config  -c ./tests/modules/varscan/nextflow.config
+  tags:
+    - varscan
+  files:
+    - path: ./output/varscan/test_varscan.html
+    - path: ./output/fastqc/test_varscan.vcf.gz
+
