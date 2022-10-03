@@ -96,8 +96,8 @@ workflow MOSAICISM {
 
   ch_versions = ch_versions.mix(VARDICTJAVA.out.versions.first())
 
-  ch_versions.mix(VARDICTJAVA.out.versions.first().view())
-  ch_versions.mix(VARDICTJAVA.out.versions.view())
+  //ch_versions.mix(VARDICTJAVA.out.versions.first().view())
+  //ch_versions.mix(VARDICTJAVA.out.versions.view())
 
   ch_bedtools = VARDICTJAVA.out.vcf.join(VARSCAN_WF.out.varscan_out)
   ch_extension = Channel.of( "bed" )
