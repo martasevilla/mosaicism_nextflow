@@ -31,8 +31,9 @@ Sample2,./path/to/bamfile2/.bam,./path/to/baifile2/.bai,./path/to/bedfile2/.bed
 | Column    | Description                                                                                                                                                                            |
 | --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `sample`  | Custom sample name. Spaces in sample names are automatically converted to underscores (`_`). |
-| `fastq_1` | Full path to FastQ file for Illumina short reads 1. File has to be gzipped and have the extension ".fastq.gz" or ".fq.gz".                                                             |
-| `fastq_2` | Full path to FastQ file for Illumina short reads 2. File has to be gzipped and have the extension ".fastq.gz" or ".fq.gz".                                                             |
+| `bam` | Full path to bam file. File has to have the extension ".bam".                                                              |
+| `bai` | Full path to bai file from the bam file. File has to have the extension ".bam.bai".                                                             |
+| `bed` | Full path to bed file containing the regions of interest. File has to have the extension ".bed".                                                             |
 
 An [example samplesheet](../assets/samplesheet.csv) has been provided with the pipeline.
 
