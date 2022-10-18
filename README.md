@@ -31,8 +31,19 @@ On release, automated continuous integration tests run the pipeline on a full-si
 
 <!-- TODO nf-core: Fill in short bullet-pointed list of the default steps in the pipeline -->
 
-1. Read QC ([`FastQC`](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/))
-2. Present QC for raw reads ([`MultiQC`](http://multiqc.info/))
+This pipeline uses two variant callers to detect low frequency variants, VarScan and VarDict. The result file is a VCF file obtained after intersecting the two VCF files.
+
+1. VarScan ([`VarScan`](https://varscan.sourceforge.net/))
+
+1.1. Sorting BAM file ([`Samtools`](http://www.htslib.org/))
+1.2. Obtaining mpileup file ([`Samtools`](http://www.htslib.org/))
+1.3. Variant Calling ([`VarScan`](https://varscan.sourceforge.net/))
+
+2. VarDict ([`VarDictJava`](https://github.com/AstraZeneca-NGS/VarDictJava))
+
+2.1. Variant Calling ([`VarDictJava`](https://github.com/AstraZeneca-NGS/VarDictJava))
+
+3. Intersection of both VCF files ([`Bedtools`](https://bedtools.readthedocs.io/en/latest/))
 
 ## Quick Start
 
@@ -64,6 +75,7 @@ On release, automated continuous integration tests run the pipeline on a full-si
 ## Documentation
 
 The nf-core/mosaicism pipeline comes with documentation about the pipeline [usage](https://nf-co.re/mosaicism/usage), [parameters](https://nf-co.re/mosaicism/parameters) and [output](https://nf-co.re/mosaicism/output).
+
 
 ## Credits
 
