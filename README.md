@@ -74,7 +74,7 @@ This pipeline uses two variant callers to detect low frequency variants, VarScan
 
 ## Documentation
 
-The nf-core/mosaicism pipeline comes with documentation about the pipeline [usage](https://github.com/martasevilla/mosaicism_nextflow/blob/test_config_yoli/docs/usage.md), [parameters](https://nf-co.re/mosaicism/parameters) and [output](./docs/output.md).
+The nf-core/mosaicism pipeline comes with documentation about the pipeline [usage](https://github.com/martasevilla/mosaicism_nextflow/blob/test_config_yoli/docs/usage.md), [parameters](https://github.com/martasevilla/mosaicism_nextflow/blob/main/nextflow_schema.json) and [output](./docs/output.md).
 
 
 ## Credits
