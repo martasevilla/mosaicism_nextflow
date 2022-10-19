@@ -80,11 +80,13 @@ The nf-core/mosaicism pipeline comes with documentation about the pipeline [usag
 
 ## Credits
 
-nf-core/mosaicism was originally written by ciberer-enod.
+This pipeline was originally written by Carlos Ruiz, Marta Sevilla and Yolanda Benítez at the [Centro de Investigaciones Biomédicas en Red de Enfermedades Raras, CIBERER](https://www.ciberer.es/).
 
-We thank the following people for their extensive assistance in the development of this pipeline:
+Main authors:
 
-<!-- TODO nf-core: If applicable, make list of people who have also contributed -->
+- [Carlos Ruiz](https://github.com/martasevilla)
+- [Marta Sevilla](https://github.com/yocra3)
+- [Yolanda Benítez](https://github.com/yolandabq)
 
 ## Contributions and Support
 
