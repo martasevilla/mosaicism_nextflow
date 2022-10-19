@@ -31,14 +31,14 @@ Sample2,./path/to/bamfile2/.bam,./path/to/baifile2/.bai,./path/to/bedfile2/.bed
 | `bai` | Full path to bai file from the bam file. File has to have the extension ".bam.bai".                                                             |
 | `bed` | Full path to bed file containing the regions of interest. File has to have the extension ".bed".                                                             |
 
-An [example samplesheet](../assets/samplesheet.csv) has been provided with the pipeline.
+An [example samplesheet](../testdata/samplesheet_test.csv) has been provided with the pipeline.
 
 ## Running the pipeline
 
 The typical command for running the pipeline is as follows:
 
 ```console
-nextflow run martasevilla/mosaicism --input samplesheet.csv --outdir <OUTDIR> --fasta path/to/reference/genome.fa --fai path/to/reference/genome.fa.fai -profile docker
+nextflow run martasevilla/mosaicism --input path/to/samplesheet.csv --outdir <OUTDIR> --fasta path/to/reference/genome.fa --fai path/to/reference/genome.fa.fai -profile docker
 ```
 
 This will launch the pipeline with the `docker` configuration profile. See below for more information about profiles.
