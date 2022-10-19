@@ -2,8 +2,6 @@
 
 [![GitHub Actions CI Status](https://github.com/nf-core/mosaicism/workflows/nf-core%20CI/badge.svg)](https://github.com/nf-core/mosaicism/actions?query=workflow%3A%22nf-core+CI%22)
 [![GitHub Actions Linting Status](https://github.com/nf-core/mosaicism/workflows/nf-core%20linting/badge.svg)](https://github.com/nf-core/mosaicism/actions?query=workflow%3A%22nf-core+linting%22)
-[![AWS CI](https://img.shields.io/badge/CI%20tests-full%20size-FF9900?logo=Amazon%20AWS)](https://nf-co.re/mosaicism/results)
-[![Cite with Zenodo](http://img.shields.io/badge/DOI-10.5281/zenodo.XXXXXXX-1073c8)](https://doi.org/10.5281/zenodo.XXXXXXX)
 
 [![Nextflow](https://img.shields.io/badge/nextflow%20DSL2-%E2%89%A521.10.3-23aa62.svg)](https://www.nextflow.io/)
 [![run with conda](http://img.shields.io/badge/run%20with-conda-3EB049?logo=anaconda)](https://docs.conda.io/en/latest/)
@@ -56,7 +54,8 @@ This pipeline uses two variant callers to detect low frequency variants, VarScan
 3. Download the pipeline and test it on a minimal dataset with a single command:
 
    ```console
-   nextflow run martasevilla/mosaicism -profile test,YOURPROFILE --outdir <OUTDIR>
+   nextflow pull martasevilla/mosaicism_nextflow
+   nextflow run martasevilla/mosaicism_nextflow -profile test,YOURPROFILE --outdir <OUTDIR>
    ```
 
    Note that some form of configuration will be needed so that Nextflow knows how to fetch the required software. This is usually done in the form of a config profile (`YOURPROFILE` in the example command above). You can chain multiple config profiles in a comma-separated string.
