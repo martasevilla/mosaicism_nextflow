@@ -19,7 +19,7 @@
 
 <!-- TODO nf-core: Write a 1-2 sentence summary of what data the pipeline is for and what it does -->
 
-**nf-core/mosaicism** is a bioinformatics best-practice analysis pipeline for Detection of mosaicism through NGS data.
+**nf-core/mosaicism** is a bioinformatics best-practice analysis pipeline for detection of mosaicism through NGS data.
 
 The pipeline is built using [Nextflow](https://www.nextflow.io), a workflow tool to run tasks across multiple compute infrastructures in a very portable manner. It uses Docker/Singularity containers making installation trivial and results highly reproducible. The [Nextflow DSL2](https://www.nextflow.io/docs/latest/dsl2.html) implementation of this pipeline uses one container per process which makes it much easier to maintain and update software dependencies. Where possible, these processes have been submitted to and installed from [nf-core/modules](https://github.com/nf-core/modules) in order to make them available to all nf-core pipelines, and to everyone within the Nextflow community!
 
@@ -36,7 +36,9 @@ This pipeline uses two variant callers to detect low frequency variants, VarScan
 1. VarScan ([`VarScan`](https://varscan.sourceforge.net/))
 
 1.1. Sorting BAM file ([`Samtools`](http://www.htslib.org/))
+
 1.2. Obtaining mpileup file ([`Samtools`](http://www.htslib.org/))
+
 1.3. Variant Calling ([`VarScan`](https://varscan.sourceforge.net/))
 
 2. VarDict ([`VarDictJava`](https://github.com/AstraZeneca-NGS/VarDictJava))
@@ -54,7 +56,7 @@ This pipeline uses two variant callers to detect low frequency variants, VarScan
 3. Download the pipeline and test it on a minimal dataset with a single command:
 
    ```console
-   nextflow run nf-core/mosaicism -profile test,YOURPROFILE --outdir <OUTDIR>
+   nextflow run martasevilla/mosaicism -profile test,YOURPROFILE --outdir <OUTDIR>
    ```
 
    Note that some form of configuration will be needed so that Nextflow knows how to fetch the required software. This is usually done in the form of a config profile (`YOURPROFILE` in the example command above). You can chain multiple config profiles in a comma-separated string.
@@ -69,12 +71,12 @@ This pipeline uses two variant callers to detect low frequency variants, VarScan
    <!-- TODO nf-core: Update the example "typical command" below used to run the pipeline -->
 
    ```console
-   nextflow run nf-core/mosaicism --input samplesheet.csv --outdir <OUTDIR> --genome GRCh37 -profile <docker/singularity/podman/shifter/charliecloud/conda/institute>
+   nextflow run martasevilla/mosaicism --input samplesheet.csv --outdir <OUTDIR> --fasta path/to/reference/genome.fa --fai path/to/reference/genome.fa.fai -profile <docker/singularity/podman/shifter/charliecloud/conda/institute>
    ```
 
 ## Documentation
 
-The nf-core/mosaicism pipeline comes with documentation about the pipeline [usage](https://github.com/martasevilla/mosaicism_nextflow/blob/test_config_yoli/docs/usage.md), [parameters](https://github.com/martasevilla/mosaicism_nextflow/blob/main/nextflow_schema.json) and [output](./docs/output.md).
+The nf-core/mosaicism pipeline comes with documentation about the pipeline [usage](./docs/usage.md), [parameters](./schema.md) and [output](./docs/output.md).
 
 
 ## Credits
