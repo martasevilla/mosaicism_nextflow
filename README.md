@@ -2,8 +2,6 @@
 
 [![GitHub Actions CI Status](https://github.com/nf-core/mosaicism/workflows/nf-core%20CI/badge.svg)](https://github.com/nf-core/mosaicism/actions?query=workflow%3A%22nf-core+CI%22)
 [![GitHub Actions Linting Status](https://github.com/nf-core/mosaicism/workflows/nf-core%20linting/badge.svg)](https://github.com/nf-core/mosaicism/actions?query=workflow%3A%22nf-core+linting%22)
-[![AWS CI](https://img.shields.io/badge/CI%20tests-full%20size-FF9900?logo=Amazon%20AWS)](https://nf-co.re/mosaicism/results)
-[![Cite with Zenodo](http://img.shields.io/badge/DOI-10.5281/zenodo.XXXXXXX-1073c8)](https://doi.org/10.5281/zenodo.XXXXXXX)
 
 [![Nextflow](https://img.shields.io/badge/nextflow%20DSL2-%E2%89%A521.10.3-23aa62.svg)](https://www.nextflow.io/)
 [![run with conda](http://img.shields.io/badge/run%20with-conda-3EB049?logo=anaconda)](https://docs.conda.io/en/latest/)
@@ -19,7 +17,7 @@
 
 <!-- TODO nf-core: Write a 1-2 sentence summary of what data the pipeline is for and what it does -->
 
-**nf-core/mosaicism** is a bioinformatics best-practice analysis pipeline for Detection of mosaicism through NGS data.
+**nf-core/mosaicism** is a bioinformatics best-practice analysis pipeline for detection of mosaicism through NGS data.
 
 The pipeline is built using [Nextflow](https://www.nextflow.io), a workflow tool to run tasks across multiple compute infrastructures in a very portable manner. It uses Docker/Singularity containers making installation trivial and results highly reproducible. The [Nextflow DSL2](https://www.nextflow.io/docs/latest/dsl2.html) implementation of this pipeline uses one container per process which makes it much easier to maintain and update software dependencies. Where possible, these processes have been submitted to and installed from [nf-core/modules](https://github.com/nf-core/modules) in order to make them available to all nf-core pipelines, and to everyone within the Nextflow community!
 
@@ -31,8 +29,21 @@ On release, automated continuous integration tests run the pipeline on a full-si
 
 <!-- TODO nf-core: Fill in short bullet-pointed list of the default steps in the pipeline -->
 
-1. Read QC ([`FastQC`](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/))
-2. Present QC for raw reads ([`MultiQC`](http://multiqc.info/))
+This pipeline uses two variant callers to detect low frequency variants, VarScan and VarDict. The result file is a VCF file obtained after intersecting the two VCF files.
+
+1. VarScan ([`VarScan`](https://varscan.sourceforge.net/))
+
+1.1. Sorting BAM file ([`Samtools`](http://www.htslib.org/))
+
+1.2. Obtaining mpileup file ([`Samtools`](http://www.htslib.org/))
+
+1.3. Variant Calling ([`VarScan`](https://varscan.sourceforge.net/))
+
+2. VarDict ([`VarDictJava`](https://github.com/AstraZeneca-NGS/VarDictJava))
+
+2.1. Variant Calling ([`VarDictJava`](https://github.com/AstraZeneca-NGS/VarDictJava))
+
+3. Intersection of both VCF files ([`Bedtools`](https://bedtools.readthedocs.io/en/latest/))
 
 ## Quick Start
 
@@ -43,7 +54,8 @@ On release, automated continuous integration tests run the pipeline on a full-si
 3. Download the pipeline and test it on a minimal dataset with a single command:
 
    ```console
-   nextflow run nf-core/mosaicism -profile test,YOURPROFILE --outdir <OUTDIR>
+   nextflow pull martasevilla/mosaicism_nextflow
+   nextflow run martasevilla/mosaicism_nextflow -profile test,YOURPROFILE --outdir <OUTDIR>
    ```
 
    Note that some form of configuration will be needed so that Nextflow knows how to fetch the required software. This is usually done in the form of a config profile (`YOURPROFILE` in the example command above). You can chain multiple config profiles in a comma-separated string.
@@ -58,20 +70,23 @@ On release, automated continuous integration tests run the pipeline on a full-si
    <!-- TODO nf-core: Update the example "typical command" below used to run the pipeline -->
 
    ```console
-   nextflow run nf-core/mosaicism --input samplesheet.csv --outdir <OUTDIR> --genome GRCh37 -profile <docker/singularity/podman/shifter/charliecloud/conda/institute>
+   nextflow run martasevilla/mosaicism --input samplesheet.csv --outdir <OUTDIR> --fasta path/to/reference/genome.fa --fai path/to/reference/genome.fa.fai -profile <docker/singularity/podman/shifter/charliecloud/conda/institute>
    ```
 
 ## Documentation
 
-The nf-core/mosaicism pipeline comes with documentation about the pipeline [usage](https://nf-co.re/mosaicism/usage), [parameters](https://nf-co.re/mosaicism/parameters) and [output](https://nf-co.re/mosaicism/output).
+The nf-core/mosaicism pipeline comes with documentation about the pipeline [usage](./docs/usage.md), [parameters](./schema.md) and [output](./docs/output.md).
+
 
 ## Credits
 
-nf-core/mosaicism was originally written by ciberer-enod.
+This pipeline was originally written by Carlos Ruiz, Marta Sevilla and Yolanda Benítez at the [Centro de Investigaciones Biomédicas en Red de Enfermedades Raras, CIBERER](https://www.ciberer.es/).
 
-We thank the following people for their extensive assistance in the development of this pipeline:
+Main authors:
 
-<!-- TODO nf-core: If applicable, make list of people who have also contributed -->
+- [Carlos Ruiz](https://github.com/yocra3)
+- [Marta Sevilla](https://github.com/martasevilla)
+- [Yolanda Benítez](https://github.com/yolandabq)
 
 ## Contributions and Support
 

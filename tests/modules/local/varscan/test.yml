@@ -1,0 +1,16 @@
+- name: local varscan test_varscan
+  command: nextflow run ./tests/modules/local/varscan -entry test_varscan -c ./tests/config/nextflow.config  -c ./tests/modules/local/varscan/nextflow.config
+  tags:
+    - local
+    - local/varscan
+  files:
+    - path: output/pipeline_info/execution_report_2022-10-06_16-36-01.html
+      contains: '[ # TODO nf-core: file md5sum was variable, please replace this text with a string found in the file instead ]'
+    - path: output/pipeline_info/execution_timeline_2022-10-06_16-36-01.html
+      contains: '[ # TODO nf-core: file md5sum was variable, please replace this text with a string found in the file instead ]'
+    - path: output/pipeline_info/execution_trace_2022-10-06_16-36-01.txt
+      contains: '[ # TODO nf-core: file md5sum was variable, please replace this text with a string found in the file instead ]'
+    - path: output/pipeline_info/pipeline_dag_2022-10-06_16-36-01.html
+      md5sum: 5dd642fa0887ebbeb7ff9f2a3e1eff5e
+    - path: output/varscan/test_varscan.vcf.gz
+      md5sum: 098d3b3f0222e00ee920df60a362e846
