@@ -84,8 +84,8 @@ This pipeline was originally written by Carlos Ruiz, Marta Sevilla and Yolanda B
 
 Main authors:
 
-- [Carlos Ruiz](https://github.com/martasevilla)
-- [Marta Sevilla](https://github.com/yocra3)
+- [Carlos Ruiz](https://github.com/yocra3)
+- [Marta Sevilla](https://github.com/martasevilla)
 - [Yolanda Benítez](https://github.com/yolandabq)
 
 ## Contributions and Support
