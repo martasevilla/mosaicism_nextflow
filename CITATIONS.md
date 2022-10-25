@@ -10,10 +10,11 @@
 
 ## Pipeline tools
 
-- [FastQC](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/)
-
-- [MultiQC](https://pubmed.ncbi.nlm.nih.gov/27312411/)
-  > Ewels P, Magnusson M, Lundin S, Käller M. MultiQC: summarize analysis results for multiple tools and samples in a single report. Bioinformatics. 2016 Oct 1;32(19):3047-8. doi: 10.1093/bioinformatics/btw354. Epub 2016 Jun 16. PubMed PMID: 27312411; PubMed Central PMCID: PMC5039924.
+1. VarScan ([`VarScan`](https://varscan.sourceforge.net/))
+2. Samtools ([`Samtools`](http://www.htslib.org/))
+3. VarDictJava ([`VarDictJava`](https://github.com/AstraZeneca-NGS/VarDictJava))
+4. Bedtools [`Bedtools`](https://bedtools.readthedocs.io/en/latest/)
+5. Tabix([`Tabix`](http://www.htslib.org/doc/tabix.html))
 
 ## Software packaging/containerisation tools
 
