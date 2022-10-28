@@ -75,6 +75,12 @@ The pipeline is built using [Nextflow](https://www.nextflow.io/) and processes d
 
 [VarScan](https://varscan.sourceforge.net/) is a platform-independent mutation caller that can be used to detect germline variants. It employs a robust heuristic/statistic approach to call variants that meet desired thresholds for read depth, base quality, variant allele frequency, and statistical significance.
 
+The parameters used in VarScan can be found in the module file of [VarScan](../modules/local/varscan/main.nf).
+
+```console
+varscan mpileup2snp ${mpileup} --min-var-freq 0.2 --p-value 1 --output-vcf 1
+```
+
 ### Bedtools
 
 <details markdown="1">
