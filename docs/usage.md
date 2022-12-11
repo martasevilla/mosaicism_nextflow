@@ -56,6 +56,14 @@ When you run the above command, Nextflow automatically pulls the pipeline code f
 ```console
 nextflow pull martasevilla/mosaicism
 ```
+
+
+## Slurm configuration
+
+If you are running the pipeline with slurm and you are usigng Singularity, please use the nf-core download command to download images first, before running the pipeline. Setting the NXF_SINGULARITY_CACHEDIR or singularity.cacheDir Nextflow options enables you to store and re-use the images from a central location for future pipeline runs.
+
+
+
 ## Core Nextflow arguments
 
 > **NB:** These options are part of Nextflow and use a _single_ hyphen (pipeline parameters use a double-hyphen).
