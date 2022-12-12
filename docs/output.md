@@ -1,4 +1,4 @@
-# martasevilla/mosaicism: Output
+# CIBERER-pipelines/mosaicism: Output
 
 # Introduction
 

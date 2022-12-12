@@ -51,8 +51,8 @@ This pipeline uses two variant callers to detect low frequency variants, VarScan
 3. Download the pipeline and test it on a minimal dataset with a single command:
 
    ```console
-   nextflow pull martasevilla/mosaicism_nextflow
-   nextflow run martasevilla/mosaicism_nextflow -profile test,YOURPROFILE --outdir <OUTDIR>
+   nextflow pull CIBERER-pipelines/mosaicism_nextflow
+   nextflow run CIBERER-pipelines/mosaicism_nextflow -profile test,YOURPROFILE --outdir <OUTDIR>
    ```
 
    Note that some form of configuration will be needed so that Nextflow knows how to fetch the required software. This is usually done in the form of a config profile (`YOURPROFILE` in the example command above). You can chain multiple config profiles in a comma-separated string.
@@ -67,7 +67,7 @@ This pipeline uses two variant callers to detect low frequency variants, VarScan
    <!-- TODO nf-core: Update the example "typical command" below used to run the pipeline -->
 
    ```console
-   nextflow run martasevilla/mosaicism_nextflow --input samplesheet.csv --outdir <OUTDIR> --fasta path/to/reference/genome.fa --fai path/to/reference/genome.fa.fai -profile <docker/singularity/podman/shifter/charliecloud/conda/institute>
+   nextflow run CIBERER-pipelines/mosaicism_nextflow --input samplesheet.csv --outdir <OUTDIR> --fasta path/to/reference/genome.fa --fai path/to/reference/genome.fa.fai -profile <docker/singularity/podman/shifter/charliecloud/conda/institute>
    ```
 
 ## Documentation
