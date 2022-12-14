@@ -1,3 +1,0 @@
-sample,bam,bai,bed
-Sample1,"https://raw.githubusercontent.com/CIBERER-pipelines/mosaicism_nextflow/test_yoli/testdata/my.bam", "https://raw.githubusercontent.com/CIBERER-pipelines/mosaicism_nextflow/test_yoli/testdata/my.bam.bai","https://raw.githubusercontent.com/CIBERER-pipelines/mosaicism_nextflow/test_yoli/testdata/my.bed"
-Sample2,"https://raw.githubusercontent.com/CIBERER-pipelines/mosaicism_nextflow/test_yoli/testdata/my.bam", "https://raw.githubusercontent.com/CIBERER-pipelines/mosaicism_nextflow/test_yoli/testdata/my.bam.bai","https://raw.githubusercontent.com/CIBERER-pipelines/mosaicism_nextflow/test_yoli/testdata/my.bed"
