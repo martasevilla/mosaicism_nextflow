@@ -1,4 +1,4 @@
-# nf-core/mosaicism: Usage
+# CIBERER-pipelines/mosaicism : Usage
 
 
 ## Samplesheet input
