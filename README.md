@@ -55,7 +55,7 @@ This pipeline uses two variant callers to detect low frequency variants, VarScan
    nextflow run CIBERER-pipelines/mosaicism_nextflow -profile test,YOURPROFILE --outdir <OUTDIR>
    ```
 
-   Then, download the [profile_test.md5](./testdata/profile_test.md5) file, locate it in the root folder and run the next command:
+   Then, download the [profile_test.md5](./tests/profile_test.md5) file, locate it in the root folder and run the next command:
 
    ```console
    md5sum -c profile_test.md5
