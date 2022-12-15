@@ -1,0 +1,6 @@
+d8f3f57eba394efa613fddcfe302eaa7  ../results/intersection/Sample1_T1.vcf
+7bba10a21763e2b26b2e95d8ac6cfe85  ../results/intersection/Sample2_T1.vcf
+3d087a37b00068be90257bfc1982e73a  ../results/varscan/Sample1_T1_varscan.vcf.gz
+3d087a37b00068be90257bfc1982e73a  ../results/varscan/Sample2_T1_varscan.vcf.gz
+fc6068bb4496b9331d14b7092e3c184f  ../results/vardictjava/Sample2_T1.vcf.gz
+68e6ef004b3faaf6f9e9d33c57ca7fdc  ../results/vardictjava/Sample1_T1.vcf.gz
