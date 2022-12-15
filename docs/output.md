@@ -19,7 +19,7 @@ The pipeline is built using [Nextflow](https://www.nextflow.io/) and processes d
 - [Bedtools](#bedtools) - Final VCF file obtained after intersecting both VCF files.  
 - [Pipeline information](#pipeline-information) - Report metrics generated during the workflow execution
 
-# Output files
+# Steps and output files
 <!---
 ### Samtools
 
@@ -51,7 +51,7 @@ The pipeline is built using [Nextflow](https://www.nextflow.io/) and processes d
 <details markdown="1">
 <summary>Output files</summary>
 
-- `*.vcf.gz`
+- `vardictjava/*.vcf.gz`
 
 </details>
 
@@ -69,7 +69,7 @@ The pipeline is built using [Nextflow](https://www.nextflow.io/) and processes d
 <details markdown="1">
 <summary>Output files</summary>
 
-- `*.vcf.gz`
+- `varscan/*.vcf.gz`
 
 </details>
 
@@ -78,7 +78,7 @@ The pipeline is built using [Nextflow](https://www.nextflow.io/) and processes d
 The parameters used in VarScan can be found in the module file of [VarScan](../modules/local/varscan/main.nf).
 
 ```console
-varscan mpileup2snp ${mpileup} --min-var-freq 0.2 --p-value 1 --output-vcf 1
+varscan mpileup2snp ${mpileup} --min-var-freq 0.05 --p-value 1 --output-vcf 1
 ```
 
 ### Bedtools
@@ -94,7 +94,7 @@ varscan mpileup2snp ${mpileup} --min-var-freq 0.2 --p-value 1 --output-vcf 1
 <details markdown="1">
 <summary>Output files</summary>
 
-- `*.vcf` : vcf containing the intersection between both variant callers.
+- `intersection/*.vcf` : vcf containing the intersection between both variant callers.
 
 </details>
 

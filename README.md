@@ -55,6 +55,23 @@ This pipeline uses two variant callers to detect low frequency variants, VarScan
    nextflow run CIBERER-pipelines/mosaicism_nextflow -profile test,YOURPROFILE --outdir <OUTDIR>
    ```
 
+   Then, download the [profile_test.md5](./testdata/profile_test.md5) file, locate it in the root folder and run the next command:
+
+   ```console
+   md5sum -c profile_test.md5
+   ```
+
+   If the output is like this, everything is working fine!:
+
+   ```console
+   ./results/intersection/Sample1_T1.vcf: OK
+   ./results/intersection/Sample2_T1.vcf: OK
+   ./results/varscan/Sample1_T1_varscan.vcf.gz: OK
+   ./results/varscan/Sample2_T1_varscan.vcf.gz: OK
+   ./results/vardictjava/Sample2_T1.vcf.gz: OK
+   ./results/vardictjava/Sample1_T1.vcf.gz: OK
+   ```
+
    Note that some form of configuration will be needed so that Nextflow knows how to fetch the required software. This is usually done in the form of a config profile (`YOURPROFILE` in the example command above). You can chain multiple config profiles in a comma-separated string.
 
    > - The pipeline comes with config profiles called `docker`, `singularity`, `podman`, `shifter`, `charliecloud` and `conda` which instruct the pipeline to use the named tool for software management. For example, `-profile test,docker`.
