@@ -13,3 +13,5 @@ testing*
 oputput_reference_sample/
 *fa
 *fai
+!chr17_var_regions.fa
+!chr17_var_regions.fa.fai
