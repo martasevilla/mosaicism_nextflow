@@ -1,13 +1,13 @@
-# ![nf-core/mosaicism](docs/images/nf-core-mosaicism_logo_light.png#gh-light-mode-only) ![nf-core/mosaicism](docs/images/nf-core-mosaicism_logo_dark.png#gh-dark-mode-only)
+# ![CIBERER-pipelines/mosaicism](docs/images/nf-core-mosaicism_logo_light.png#gh-light-mode-only) ![CIBERER-pipelines/mosaicism ](docs/images/nf-core-mosaicism_logo_dark.png#gh-dark-mode-only)
 
-[![GitHub Actions CI Status](https://github.com/nf-core/mosaicism/workflows/nf-core%20CI/badge.svg)](https://github.com/nf-core/mosaicism/actions?query=workflow%3A%22nf-core+CI%22)
-[![GitHub Actions Linting Status](https://github.com/nf-core/mosaicism/workflows/nf-core%20linting/badge.svg)](https://github.com/nf-core/mosaicism/actions?query=workflow%3A%22nf-core+linting%22)
+[![GitHub Actions CI Status](https://github.com/CIBERER-pipelines/mosaicism /workflows/nf-core%20CI/badge.svg)](https://github.com/CIBERER-pipelines/mosaicism /actions?query=workflow%3A%22nf-core+CI%22)
+[![GitHub Actions Linting Status](https://github.com/CIBERER-pipelines/mosaicism /workflows/nf-core%20linting/badge.svg)](https://github.com/CIBERER-pipelines/mosaicism /actions?query=workflow%3A%22nf-core+linting%22)
 
 [![Nextflow](https://img.shields.io/badge/nextflow%20DSL2-%E2%89%A521.10.3-23aa62.svg)](https://www.nextflow.io/)
 [![run with conda](http://img.shields.io/badge/run%20with-conda-3EB049?logo=anaconda)](https://docs.conda.io/en/latest/)
 [![run with docker](https://img.shields.io/badge/run%20with-docker-0db7ed?logo=docker)](https://www.docker.com/)
 [![run with singularity](https://img.shields.io/badge/run%20with-singularity-1d355c.svg)](https://sylabs.io/docs/)
-[![Launch on Nextflow Tower](https://img.shields.io/badge/Launch%20%F0%9F%9A%80-Nextflow%20Tower-%234256e7)](https://tower.nf/launch?pipeline=https://github.com/nf-core/mosaicism)
+[![Launch on Nextflow Tower](https://img.shields.io/badge/Launch%20%F0%9F%9A%80-Nextflow%20Tower-%234256e7)](https://tower.nf/launch?pipeline=https://github.com/CIBERER-pipelines/mosaicism )
 
 [![Get help on Slack](http://img.shields.io/badge/slack-nf--core%20%23mosaicism-4A154B?logo=slack)](https://nfcore.slack.com/channels/mosaicism)
 [![Follow on Twitter](http://img.shields.io/badge/twitter-%40nf__core-1DA1F2?logo=twitter)](https://twitter.com/nf_core)
@@ -17,7 +17,7 @@
 
 <!-- TODO nf-core: Write a 1-2 sentence summary of what data the pipeline is for and what it does -->
 
-**nf-core/mosaicism** is a bioinformatics best-practice analysis pipeline for detection of mosaicism through NGS data.
+**CIBERER-pipelines/mosaicism** is a bioinformatics best-practice analysis pipeline for detection of mosaicism through NGS data.
 
 The pipeline is built using [Nextflow](https://www.nextflow.io), a workflow tool to run tasks across multiple compute infrastructures in a very portable manner. It uses Docker/Singularity containers making installation trivial and results highly reproducible. The [Nextflow DSL2](https://www.nextflow.io/docs/latest/dsl2.html) implementation of this pipeline uses one container per process which makes it much easier to maintain and update software dependencies. Where possible, these processes have been submitted to and installed from [nf-core/modules](https://github.com/nf-core/modules) in order to make them available to all nf-core pipelines, and to everyone within the Nextflow community!
 The pipeline is built using [Nextflow](https://www.nextflow.io), a workflow tool to run tasks across multiple compute infrastructures in a very portable manner. It uses Docker/Singularity containers making installation trivial and results highly reproducible. The [Nextflow DSL2](https://www.nextflow.io/docs/latest/dsl2.html) implementation of this pipeline uses one container per process which makes it much easier to maintain and update software dependencies. Where possible, these processes have been submitted to and installed from [nf-core/modules](https://github.com/nf-core/modules) in order to make them available to all nf-core pipelines, and to everyone within the Nextflow community!
@@ -51,8 +51,25 @@ This pipeline uses two variant callers to detect low frequency variants, VarScan
 3. Download the pipeline and test it on a minimal dataset with a single command:
 
    ```console
-   nextflow pull martasevilla/mosaicism_nextflow
-   nextflow run martasevilla/mosaicism_nextflow -profile test,YOURPROFILE --outdir <OUTDIR>
+   nextflow pull CIBERER-pipelines/mosaicism_nextflow
+   nextflow run CIBERER-pipelines/mosaicism_nextflow -profile test,YOURPROFILE --outdir <OUTDIR>
+   ```
+
+   Then, download the [profile_test.md5](./tests/profile_test.md5) file, locate it in the root folder and run the next command:
+
+   ```console
+   md5sum -c profile_test.md5
+   ```
+
+   If the output is like this, everything is working fine!:
+
+   ```console
+   ./results/intersection/Sample1_T1.vcf: OK
+   ./results/intersection/Sample2_T1.vcf: OK
+   ./results/varscan/Sample1_T1_varscan.vcf.gz: OK
+   ./results/varscan/Sample2_T1_varscan.vcf.gz: OK
+   ./results/vardictjava/Sample2_T1.vcf.gz: OK
+   ./results/vardictjava/Sample1_T1.vcf.gz: OK
    ```
 
    Note that some form of configuration will be needed so that Nextflow knows how to fetch the required software. This is usually done in the form of a config profile (`YOURPROFILE` in the example command above). You can chain multiple config profiles in a comma-separated string.
@@ -67,12 +84,12 @@ This pipeline uses two variant callers to detect low frequency variants, VarScan
    <!-- TODO nf-core: Update the example "typical command" below used to run the pipeline -->
 
    ```console
-   nextflow run martasevilla/mosaicism_nextflow --input samplesheet.csv --outdir <OUTDIR> --fasta path/to/reference/genome.fa --fai path/to/reference/genome.fa.fai -profile <docker/singularity/podman/shifter/charliecloud/conda/institute>
+   nextflow run CIBERER-pipelines/mosaicism_nextflow --input samplesheet.csv --outdir <OUTDIR> --fasta path/to/reference/genome.fa --fai path/to/reference/genome.fa.fai -profile <docker/singularity/podman/shifter/charliecloud/conda/institute>
    ```
 
 ## Documentation
 
-The nf-core/mosaicism pipeline comes with documentation about the pipeline [usage](./docs/usage.md), [parameters](./schema.md) and [output](./docs/output.md).
+The  CIBERER-pipelines /mosaicism pipeline comes with documentation about the pipeline [usage](./docs/usage.md), [parameters](./schema.md) and [output](./docs/output.md).
 
 
 ## Credits
@@ -104,7 +121,7 @@ carlos.ruiza@upf.edu, marta.sevilla@upf.edu or yolanda.benitez@ciberer.es
 
 
 <!-- TODO nf-core: Add citation for pipeline after first release. Uncomment lines below and update Zenodo doi and badge at the top of this file. -->
-<!-- If you use  nf-core/mosaicism for your analysis, please cite it using the following doi: [10.5281/zenodo.XXXXXX](https://doi.org/10.5281/zenodo.XXXXXX) -->
+<!-- If you use  CIBERER-pipelines/mosaicism  for your analysis, please cite it using the following doi: [10.5281/zenodo.XXXXXX](https://doi.org/10.5281/zenodo.XXXXXX) -->
 
 <!-- TODO nf-core: Add bibliography of tools and data used in your pipeline -->
 
