@@ -40,6 +40,7 @@ if (params.fai) { ch_fasta_fai = file(params.fai) } else { exit 1, 'Fai file not
 
 include { INPUT_CHECK } from '../subworkflows/local/input_check'
 include { VARSCAN_WF } from '../subworkflows/local/varscan_workflow'
+include { BAM_TUMOR_ONLY_SOMATIC_VARIANT_CALLING_GATK } from '../subworkflows/nf-core/bam_tumor_only_somatic_variant_calling_gatk/main'
 
 
 /*

@@ -1,32 +1,41 @@
 {
-    "name": "nf-core/mosaicism",
-    "homePage": "https://github.com/nf-core/mosaicism",
-    "repos": {
-        "nf-core/modules": {
-            "bedtools/intersect": {
-                "git_sha": "e745e167c1020928ef20ea1397b6b4d230681b4d"
-            },
-            "custom/dumpsoftwareversions": {
-                "git_sha": "e745e167c1020928ef20ea1397b6b4d230681b4d"
-            },
-            "fastqc": {
-                "git_sha": "e745e167c1020928ef20ea1397b6b4d230681b4d"
-            },
-            "multiqc": {
-                "git_sha": "e745e167c1020928ef20ea1397b6b4d230681b4d"
-            },
-            "samtools/mpileup": {
-                "git_sha": "5e7b1ef9a5a2d9258635bcbf70fcf37dacd1b247"
-            },
-            "samtools/sort": {
-                "git_sha": "897c33d5da084b61109500ee44c01da2d3e4e773"
-            },
-            "tabix/bgzip": {
-                "git_sha": "5e7b1ef9a5a2d9258635bcbf70fcf37dacd1b247"
-            },
-            "vardictjava": {
-                "git_sha": "eab173f2bb8c44223bbe533ea169557455c9ceee"
-            }
+  "name": "nf-core/mosaicism",
+  "homePage": "https://github.com/nf-core/mosaicism",
+  "repos": {
+    "https://github.com/nf-core/modules.git": {
+      "modules": {
+        "nf-core": {
+          "gatk4/calculatecontamination": {
+            "branch": "master",
+            "git_sha": "911696ea0b62df80e900ef244d7867d177971f73",
+            "installed_by": ["bam_tumor_only_somatic_variant_calling_gatk"]
+          },
+          "gatk4/filtermutectcalls": {
+            "branch": "master",
+            "git_sha": "2df2a11d5b12f2a73bca74f103691bc35d83c5fd",
+            "installed_by": ["bam_tumor_only_somatic_variant_calling_gatk"]
+          },
+          "gatk4/getpileupsummaries": {
+            "branch": "master",
+            "git_sha": "2df2a11d5b12f2a73bca74f103691bc35d83c5fd",
+            "installed_by": ["bam_tumor_only_somatic_variant_calling_gatk"]
+          },
+          "gatk4/mutect2": {
+            "branch": "master",
+            "git_sha": "2df2a11d5b12f2a73bca74f103691bc35d83c5fd",
+            "installed_by": ["bam_tumor_only_somatic_variant_calling_gatk"]
+          }
         }
+      },
+      "subworkflows": {
+        "nf-core": {
+          "bam_tumor_only_somatic_variant_calling_gatk": {
+            "branch": "master",
+            "git_sha": "5c3a343c98897b1cd65f5f0a0193e05f00f54b10",
+            "installed_by": ["subworkflows"]
+          }
+        }
+      }
     }
+  }
 }
