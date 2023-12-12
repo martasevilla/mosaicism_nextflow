@@ -22,6 +22,10 @@ workflow INPUT_CHECK {
         .set { reads_bam }
 
     canal_sp
+        .map {create_bam_bai_channel(it)}
+        .set { reads_bam_bai }
+
+    canal_sp
         .map {create_bed_channel(it)}
         .set { reads_bed }
 
@@ -30,6 +34,7 @@ workflow INPUT_CHECK {
     emit:
     reads_bam_bai_bed // channel: [ meta, [ bam, bai, bed] ]
     reads_bam // channel: [ meta, [ bam ] ]
+    reads_bam_bai // channel: [ meta, [ bam, bai ] ]
     reads_bed // channel: [ meta, [ bed ] ]
     versions = SAMPLESHEET_CHECK.out.versions // channel: [ versions.yml ]
 
@@ -74,6 +79,27 @@ def create_bam_channel(LinkedHashMap row) {
     }
 
     bam_meta = [ meta, file(row.bam) ]
+    //bam_meta = [ meta, [ file(row.bam)] ]
+
+    return bam_meta
+}
+
+def create_bam_bai_channel(LinkedHashMap row) {
+    // create meta map
+    def meta = [:]
+    meta.id         = row.sample
+
+    // add path(s) of the bam/bai files to the meta map
+    def bam_meta = []
+    if (!file(row.bam).exists()) {
+        exit 1, "ERROR: Please check input samplesheet -> Bam file does not exist!\n${row.bam}"
+    }
+
+    if (!file(row.bai).exists()) {
+        exit 1, "ERROR: Please check input samplesheet -> Bam.bai file does not exist!\n${row.bai}"
+    }
+
+    bam_meta = [ meta, file(row.bam), file(row.bai) ]
     //bam_meta = [ meta, [ file(row.bam)] ]
 
     return bam_meta

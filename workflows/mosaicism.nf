@@ -11,13 +11,17 @@ WorkflowMosaicism.initialise(params, log)
 
 // TODO nf-core: Add all file path parameters for the pipeline to the list below
 // Check input path parameters to see if they exist
-def checkPathParamList = [ params.input, params.multiqc_config, params.fasta , params.fai]
+def checkPathParamList = [ params.input, params.multiqc_config, params.fasta , params.fai, params.dict, params.chrom_sizes]
 for (param in checkPathParamList) { if (param) { file(param, checkIfExists: true) } }
 
 // Check mandatory parameters
 if (params.input) { ch_input = file(params.input) } else { exit 1, 'Input samplesheet not specified!' }
 if (params.fasta) { ch_fasta = file(params.fasta) } else { exit 1, 'Fasta file not specified!' }
 if (params.fai) { ch_fasta_fai = file(params.fai) } else { exit 1, 'Fai file not specified!' }
+if (params.dict) { ch_fasta_dict = file(params.dict) } else { exit 1, 'Dict file not specified!' }
+if (params.chrom_sizes) { ch_chrom_sizes = file(params.chrom_sizes) } else { exit 1, 'chrom.sizes file not specified!' }
+if (params.germline_resource) { ch_germline_resource = file(params.germline_resource) } else { exit 1, 'germline_resource VCF file not specified!' }
+if (params.germline_resource_tbi) { ch_germline_resource_tbi = file(params.germline_resource_tbi) } else { exit 1, 'germline_resource TBI file not specified!' }
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -40,7 +44,7 @@ if (params.fai) { ch_fasta_fai = file(params.fai) } else { exit 1, 'Fai file not
 
 include { INPUT_CHECK } from '../subworkflows/local/input_check'
 include { VARSCAN_WF } from '../subworkflows/local/varscan_workflow'
-include { BAM_TUMOR_ONLY_SOMATIC_VARIANT_CALLING_GATK } from '../subworkflows/nf-core/bam_tumor_only_somatic_variant_calling_gatk/main'
+include { BAM_TUMOR_ONLY_SOMATIC_VARIANT_CALLING_GATK } from '../subworkflows/local/bam_tumor_only_somatic_variant_calling_gatk/main'
 
 
 /*
@@ -53,9 +57,9 @@ include { BAM_TUMOR_ONLY_SOMATIC_VARIANT_CALLING_GATK } from '../subworkflows/nf
 // MODULE: Installed directly from nf-core/modules
 //
 
-include { CUSTOM_DUMPSOFTWAREVERSIONS } from '../modules/nf-core/modules/custom/dumpsoftwareversions/main'
-include { VARDICTJAVA } from '../modules/nf-core/modules/vardictjava/main'
-include { BEDTOOLS_INTERSECT } from '../modules/nf-core/modules/bedtools/intersect/main'
+include { CUSTOM_DUMPSOFTWAREVERSIONS } from '../modules/nf-core/custom/dumpsoftwareversions/main'
+include { VARDICTJAVA } from '../modules/nf-core/vardictjava/main'
+include { BEDTOOLS_INTERSECT } from '../modules/nf-core/bedtools/intersect/main'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -88,6 +92,18 @@ workflow MOSAICISM {
   ch_versions = ch_versions.mix(VARSCAN_WF.out.ch_versions)
 
   //
+  // SUBWORKFLOW: Run Mutect2 and related software
+  //
+
+  // ch_mutect2 = INPUT_CHECK.out.reads_bam_bai.combine(Channel.value([[]]))
+
+  BAM_TUMOR_ONLY_SOMATIC_VARIANT_CALLING_GATK(
+    INPUT_CHECK.out.reads_bam_bai, Channel.fromPath(ch_fasta), Channel.fromPath(ch_fasta_fai), Channel.fromPath(ch_fasta_dict), Channel.fromPath(ch_germline_resource), Channel.fromPath(ch_germline_resource_tbi), INPUT_CHECK.out.reads_bed
+  )
+  
+  ch_versions = ch_versions.mix(BAM_TUMOR_ONLY_SOMATIC_VARIANT_CALLING_GATK.out.versions)
+
+  //
   // MODULE: Run Vardictjava
   //
 
@@ -101,9 +117,13 @@ workflow MOSAICISM {
   //ch_versions.mix(VARDICTJAVA.out.versions.view())
 
   ch_bedtools = VARDICTJAVA.out.vcf.join(VARSCAN_WF.out.varscan_out)
+  
+  Channel.fromPath(ch_chrom_sizes)
+    .map{ create_chrom_sizes_input(it) }
+    .set{ ch_chrom_sizes_meta }
 
   BEDTOOLS_INTERSECT (
-    ch_bedtools, "vcf"
+    ch_bedtools, ch_chrom_sizes_meta
   )
 
   ch_versions = ch_versions.mix(BEDTOOLS_INTERSECT.out.versions.first())
@@ -111,6 +131,25 @@ workflow MOSAICISM {
   CUSTOM_DUMPSOFTWAREVERSIONS (
       ch_versions.unique().collectFile(name: 'collated_versions.yml')
   )
+
+}
+
+// Add meta for chrom.sizes input for BEDTOOLS_INTERSECT
+
+def create_chrom_sizes_input (chrom_sizes) {
+    // create meta map
+    def meta = [:]
+    meta.id = chrom_sizes.baseName
+    
+    // add path of the chrom.sizes file to the meta map
+    def chrom_sizes_meta = []
+    if (!file(chrom_sizes).exists()) {
+        exit 1, "ERROR: Please check input parameters -> chrom_sizes file does not exist!\n${chrom_sizes}"
+    }
+
+    chrom_sizes_meta = [ meta, file(chrom_sizes) ]
+
+    return chrom_sizes_meta
 
 }
 

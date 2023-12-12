@@ -5,7 +5,7 @@ process GATK4_MUTECT2 {
     conda "bioconda::gatk4=4.4.0.0"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'https://depot.galaxyproject.org/singularity/gatk4:4.4.0.0--py36hdfd78af_0':
-        'biocontainers/gatk4:4.4.0.0--py36hdfd78af_0' }"
+        'quay.io/biocontainers/gatk4:4.4.0.0--py36hdfd78af_0' }"
 
     input:
     tuple val(meta), path(input), path(input_index), path(intervals)
@@ -14,8 +14,8 @@ process GATK4_MUTECT2 {
     tuple val(meta4), path(dict)
     path(germline_resource)
     path(germline_resource_tbi)
-    path(panel_of_normals)
-    path(panel_of_normals_tbi)
+    // path(panel_of_normals)
+    // path(panel_of_normals_tbi)
 
     output:
     tuple val(meta), path("*.vcf.gz")     , emit: vcf
@@ -32,7 +32,7 @@ process GATK4_MUTECT2 {
     def prefix = task.ext.prefix ?: "${meta.id}"
     def inputs = input.collect{ "--input $it"}.join(" ")
     def interval_command = intervals ? "--intervals $intervals" : ""
-    def pon_command = panel_of_normals ? "--panel-of-normals $panel_of_normals" : ""
+    // def pon_command = panel_of_normals ? "--panel-of-normals $panel_of_normals" : ""
     def gr_command = germline_resource ? "--germline-resource $germline_resource" : ""
 
     def avail_mem = 3072
@@ -46,7 +46,6 @@ process GATK4_MUTECT2 {
         $inputs \\
         --output ${prefix}.vcf.gz \\
         --reference $fasta \\
-        $pon_command \\
         $gr_command \\
         $interval_command \\
         --tmp-dir . \\
