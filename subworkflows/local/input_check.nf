@@ -99,10 +99,9 @@ def create_bam_bai_channel(LinkedHashMap row) {
         exit 1, "ERROR: Please check input samplesheet -> Bam.bai file does not exist!\n${row.bai}"
     }
 
-    bam_meta = [ meta, file(row.bam), file(row.bai) ]
-    //bam_meta = [ meta, [ file(row.bam)] ]
+    bam_bai_meta = [ meta, file(row.bam), file(row.bai) ]
 
-    return bam_meta
+    return bam_bai_meta
 }
 
 def create_bed_channel(LinkedHashMap row) {
@@ -116,8 +115,7 @@ def create_bed_channel(LinkedHashMap row) {
         exit 1, "ERROR: Please check input samplesheet -> Bed file does not exist!\n${row.bed}"
     }
 
-    bam_meta = [ meta, file(row.bed) ]
-    //bam_meta = [ meta, [ file(row.bam)] ]
+    bed_meta = [ meta, file(row.bed) ]
 
-    return bam_meta
+    return bed_meta
 }
