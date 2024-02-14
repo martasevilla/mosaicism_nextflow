@@ -95,13 +95,11 @@ workflow MOSAICISM {
   // SUBWORKFLOW: Run Mutect2 and related software
   //
 
-  // ch_mutect2 = INPUT_CHECK.out.reads_bam_bai.combine(Channel.value([[]]))
-
   BAM_TUMOR_ONLY_SOMATIC_VARIANT_CALLING_GATK(
-    INPUT_CHECK.out.reads_bam_bai, Channel.fromPath(ch_fasta), Channel.fromPath(ch_fasta_fai), Channel.fromPath(ch_fasta_dict), Channel.fromPath(ch_germline_resource), Channel.fromPath(ch_germline_resource_tbi), INPUT_CHECK.out.reads_bed
+    INPUT_CHECK.out.reads_bam_bai, Channel.fromPath(ch_fasta).first(), Channel.fromPath(ch_fasta_fai).first(), Channel.fromPath(ch_fasta_dict).first(), Channel.fromPath(ch_germline_resource).first(), Channel.fromPath(ch_germline_resource_tbi).first(), INPUT_CHECK.out.reads_bed
   )
   
-  ch_versions = ch_versions.mix(BAM_TUMOR_ONLY_SOMATIC_VARIANT_CALLING_GATK.out.versions)
+  ch_versions = ch_versions.mix(BAM_TUMOR_ONLY_SOMATIC_VARIANT_CALLING_GATK.out.versions.first())
 
   //
   // MODULE: Run Vardictjava

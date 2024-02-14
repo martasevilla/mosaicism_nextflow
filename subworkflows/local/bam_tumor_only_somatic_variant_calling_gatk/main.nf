@@ -3,9 +3,9 @@
 //
 
 include { GATK4_MUTECT2                as MUTECT2 }                  from '../../../modules/nf-core/gatk4/mutect2/main'
-include { GATK4_GETPILEUPSUMMARIES     as GETPILEUPSUMMARIES }       from '../../../modules/nf-core/gatk4/getpileupsummaries/main'
-include { GATK4_CALCULATECONTAMINATION as CALCULATECONTAMINATION }   from '../../../modules/nf-core/gatk4/calculatecontamination/main'
-include { GATK4_FILTERMUTECTCALLS      as FILTERMUTECTCALLS }        from '../../../modules/nf-core/gatk4/filtermutectcalls/main'
+// include { GATK4_GETPILEUPSUMMARIES     as GETPILEUPSUMMARIES }       from '../../../modules/nf-core/gatk4/getpileupsummaries/main'
+// include { GATK4_CALCULATECONTAMINATION as CALCULATECONTAMINATION }   from '../../../modules/nf-core/gatk4/calculatecontamination/main'
+// include { GATK4_FILTERMUTECTCALLS      as FILTERMUTECTCALLS }        from '../../../modules/nf-core/gatk4/filtermutectcalls/main'
 
 workflow BAM_TUMOR_ONLY_SOMATIC_VARIANT_CALLING_GATK {
     take:
@@ -20,7 +20,8 @@ workflow BAM_TUMOR_ONLY_SOMATIC_VARIANT_CALLING_GATK {
     // ch_panel_of_normals_tbi  // channel: /path/to/panel/of/normals/index
 
     main:
-    ch_versions = Channel.of([])
+    // ch_versions = Channel.of([])
+    ch_versions = Channel.empty()
 
     // Channel for FASTA, FAI and DICT with META
     ch_fasta
@@ -38,11 +39,9 @@ workflow BAM_TUMOR_ONLY_SOMATIC_VARIANT_CALLING_GATK {
     //
     //Perform variant calling using mutect2 module in tumor single mode.
     //
-
+    
     ch_input
-        .combine(ch_interval_file.map {
-            meta, intervals -> [intervals]
-        })
+        .combine(ch_interval_file, by: 0)
         .set{ch_input_mutect2}
 
     MUTECT2 (
@@ -62,27 +61,11 @@ workflow BAM_TUMOR_ONLY_SOMATIC_VARIANT_CALLING_GATK {
     //Generate pileup summary table using getpileupsummaries.
     //
 
-    ch_pileup_input = ch_input.combine(ch_interval_file).map {
-        meta, input_file, input_index, which_norm, intervals ->
-        [meta, input_file, input_index, intervals]
-    }
+    ch_vcf = MUTECT2.out.vcf.collect()
+    ch_tbi = MUTECT2.out.tbi.collect()
+    ch_stats = MUTECT2.out.stats.collect()
 
-    MUTECT2.out.vcf
-        .collect()
-        .map {
-            meta, vcf -> vcf
-        }
-        .set{ch_vcf}
-
-    MUTECT2.out.tbi
-        .collect()
-        .map {
-            meta, tbi -> tbi
-        }
-        .set{ch_tbi}
-
-    ch_tbi.view()
-
+/*
     GETPILEUPSUMMARIES (
         ch_pileup_input,
         ch_fasta_meta,
@@ -128,12 +111,12 @@ workflow BAM_TUMOR_ONLY_SOMATIC_VARIANT_CALLING_GATK {
 
     FILTERMUTECTCALLS ( ch_filtermutect_in, ch_fasta, ch_fai, ch_dict )
     ch_versions = ch_versions.mix(FILTERMUTECTCALLS.out.versions)
-
+*/
     emit:
     mutect2_vcf         = MUTECT2.out.vcf.collect()                          // channel: [ val(meta), [ vcf ] ]
     mutect2_index       = MUTECT2.out.tbi.collect()                          // channel: [ val(meta), [ tbi ] ]
     mutect2_stats       = MUTECT2.out.stats.collect()                        // channel: [ val(meta), [ stats ] ]
-
+/*
     pileup_table        = GETPILEUPSUMMARIES.out.table.collect()             // channel: [ val(meta), [ table ] ]
 
     contamination_table = CALCULATECONTAMINATION.out.contamination.collect() // channel: [ val(meta), [ contamination ] ]
@@ -142,7 +125,7 @@ workflow BAM_TUMOR_ONLY_SOMATIC_VARIANT_CALLING_GATK {
     filtered_vcf        = FILTERMUTECTCALLS.out.vcf.collect()                // channel: [ val(meta), [ vcf ] ]
     filtered_index      = FILTERMUTECTCALLS.out.tbi.collect()                // channel: [ val(meta), [ tbi ] ]
     filtered_stats      = FILTERMUTECTCALLS.out.stats.collect()              // channel: [ val(meta), [ stats ] ]
-
+*/
     versions            = ch_versions                                        // channel: [ versions.yml ]
 }
 
