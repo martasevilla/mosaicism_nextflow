@@ -69,14 +69,6 @@
           "description": "Path to fai genome file.",
           "help_text": "Reference fasta file index. "
         },
-        "dict": {
-          "type": "string",
-          "description": "Path to dict genome file.",
-          "pattern": "^\\S+\\.dict$",
-          "format": "file-path",
-          "mimetype": "text/plain",
-          "help_text": "Reference fasta file dict."
-        },
         "chrom_sizes": {
           "type": "string",
           "description": "Path to genome chrom.sizes file",
@@ -117,7 +109,6 @@
       "required": [
         "fasta",
         "fai",
-        "dict",
         "chrom_sizes",
         "germline_resource",
         "germline_resource_tbi"

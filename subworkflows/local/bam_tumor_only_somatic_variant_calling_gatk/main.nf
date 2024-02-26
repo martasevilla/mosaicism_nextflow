@@ -2,6 +2,7 @@
 // Run GATK mutect2 in tumor only mode, getepileupsummaries, calculatecontamination and filtermutectcalls
 //
 
+ include { GATK4_CREATESEQUENCEDICTIONARY } from '../../../modules/nf-core/gatk4/createsequencedictionary/main'
 include { GATK4_MUTECT2                as MUTECT2 }                  from '../../../modules/nf-core/gatk4/mutect2/main'
 // include { GATK4_GETPILEUPSUMMARIES     as GETPILEUPSUMMARIES }       from '../../../modules/nf-core/gatk4/getpileupsummaries/main'
 // include { GATK4_CALCULATECONTAMINATION as CALCULATECONTAMINATION }   from '../../../modules/nf-core/gatk4/calculatecontamination/main'
@@ -12,7 +13,6 @@ workflow BAM_TUMOR_ONLY_SOMATIC_VARIANT_CALLING_GATK {
     ch_input                 // channel: [ val(meta), [ input ], [ input_index ], [] ]
     ch_fasta                 // channel: /path/to/reference/fasta
     ch_fai                   // channel: /path/to/reference/fasta/index
-    ch_dict                  // channel: /path/to/reference/fasta/dict
     ch_germline_resource     // channel: /path/to/germline/resource
     ch_germline_resource_tbi // channel: /path/to/germline/index
     ch_interval_file         // channel: /path/to/interval/file
@@ -31,10 +31,14 @@ workflow BAM_TUMOR_ONLY_SOMATIC_VARIANT_CALLING_GATK {
     ch_fai
         .map{ create_fai_input(it) }
         .set{ ch_fai_meta }
+    
+    GATK4_CREATESEQUENCEDICTIONARY (
+        ch_fasta_meta
+    )
 
-    ch_dict
-        .map{ create_dict_input(it) }
-        .set{ ch_dict_meta }
+    ch_dict_meta = GATK4_CREATESEQUENCEDICTIONARY.out.dict
+
+    ch_versions = ch_versions.mix(GATK4_CREATESEQUENCEDICTIONARY.out.versions)
 
     //
     //Perform variant calling using mutect2 module in tumor single mode.
@@ -109,7 +113,7 @@ workflow BAM_TUMOR_ONLY_SOMATIC_VARIANT_CALLING_GATK {
 
     ch_filtermutect_in.view()
 
-    FILTERMUTECTCALLS ( ch_filtermutect_in, ch_fasta, ch_fai, ch_dict )
+    FILTERMUTECTCALLS ( ch_filtermutect_in, ch_fasta, ch_fai )
     ch_versions = ch_versions.mix(FILTERMUTECTCALLS.out.versions)
 */
     emit:
@@ -160,22 +164,5 @@ def create_fai_input (fai) {
     fai_meta = [ meta, file(fai) ]
 
     return fai_meta
-
-}
-
-def create_dict_input (dict) {
-    // create meta map
-    def meta = [:]
-    meta.id = dict.baseName
-    
-    // add path of the fasta file to the meta map
-    def dict_meta = []
-    if (!file(dict).exists()) {
-        exit 1, "ERROR: Please check input parameters -> Dcit file does not exist!\n${dict}"
-    }
-
-    dict_meta = [ meta, file(dict) ]
-
-    return dict_meta
 
 }

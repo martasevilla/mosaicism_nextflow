@@ -20,7 +20,6 @@ Reference genome related files and options required for the workflow.
 |-----------|-----------|-----------|-----------|-----------|-----------|
 | `fasta` | Path to FASTA genome file. <details><summary>Help</summary><small>Reference fasta file. </small></details>| `string` |  |  |  |
 | `fai` | Path to fai genome file. <details><summary>Help</summary><small>Reference fasta file index. </small></details>| `string` |  |  |  |
-| `dict` | Path to dict genome file. <details><summary>Help</summary><small>Reference fasta file dict. </small></details>| `string` |  |  |  |
 
 
 ## Institutional config options

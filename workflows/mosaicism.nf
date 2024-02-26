@@ -11,14 +11,13 @@ WorkflowMosaicism.initialise(params, log)
 
 // TODO nf-core: Add all file path parameters for the pipeline to the list below
 // Check input path parameters to see if they exist
-def checkPathParamList = [ params.input, params.multiqc_config, params.fasta , params.fai, params.dict, params.chrom_sizes]
+def checkPathParamList = [ params.input, params.multiqc_config, params.fasta , params.fai, params.chrom_sizes]
 for (param in checkPathParamList) { if (param) { file(param, checkIfExists: true) } }
 
 // Check mandatory parameters
 if (params.input) { ch_input = file(params.input) } else { exit 1, 'Input samplesheet not specified!' }
 if (params.fasta) { ch_fasta = file(params.fasta) } else { exit 1, 'Fasta file not specified!' }
 if (params.fai) { ch_fasta_fai = file(params.fai) } else { exit 1, 'Fai file not specified!' }
-if (params.dict) { ch_fasta_dict = file(params.dict) } else { exit 1, 'Dict file not specified!' }
 if (params.chrom_sizes) { ch_chrom_sizes = file(params.chrom_sizes) } else { exit 1, 'chrom.sizes file not specified!' }
 if (params.germline_resource) { ch_germline_resource = file(params.germline_resource) } else { exit 1, 'germline_resource VCF file not specified!' }
 if (params.germline_resource_tbi) { ch_germline_resource_tbi = file(params.germline_resource_tbi) } else { exit 1, 'germline_resource TBI file not specified!' }
@@ -96,7 +95,7 @@ workflow MOSAICISM {
   //
 
   BAM_TUMOR_ONLY_SOMATIC_VARIANT_CALLING_GATK(
-    INPUT_CHECK.out.reads_bam_bai, Channel.fromPath(ch_fasta).first(), Channel.fromPath(ch_fasta_fai).first(), Channel.fromPath(ch_fasta_dict).first(), Channel.fromPath(ch_germline_resource).first(), Channel.fromPath(ch_germline_resource_tbi).first(), INPUT_CHECK.out.reads_bed
+    INPUT_CHECK.out.reads_bam_bai, Channel.fromPath(ch_fasta).first(), Channel.fromPath(ch_fasta_fai).first(), Channel.fromPath(ch_germline_resource).first(), Channel.fromPath(ch_germline_resource_tbi).first(), INPUT_CHECK.out.reads_bed
   )
   
   ch_versions = ch_versions.mix(BAM_TUMOR_ONLY_SOMATIC_VARIANT_CALLING_GATK.out.versions.first())
