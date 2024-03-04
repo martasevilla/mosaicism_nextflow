@@ -2,30 +2,61 @@
     "name": "nf-core/mosaicism",
     "homePage": "https://github.com/nf-core/mosaicism",
     "repos": {
-        "nf-core/modules": {
-            "bedtools/intersect": {
-                "git_sha": "e745e167c1020928ef20ea1397b6b4d230681b4d"
+        "https://github.com/nf-core/modules.git": {
+            "modules": {
+                "nf-core": {
+                    "bedtools/intersect": {
+                        "branch": "master",
+                        "git_sha": "575e1bc54b083fb15e7dd8b5fcc40bea60e8ce83",
+                        "installed_by": [
+                            "modules"
+                        ],
+                        "patch": "modules/nf-core/bedtools/intersect/bedtools-intersect.diff"
+                    },
+                    "custom/dumpsoftwareversions": {
+                        "branch": "master",
+                        "git_sha": "de45447d060b8c8b98575bc637a4a575fd0638e1",
+                        "installed_by": [
+                            "modules"
+                        ],
+                        "patch": "modules/nf-core/custom/dumpsoftwareversions/custom-dumpsoftwareversions.diff"
+                    },
+                    "samtools/mpileup": {
+                        "branch": "master",
+                        "git_sha": "f4596fe0bdc096cf53ec4497e83defdb3a94ff62",
+                        "installed_by": [
+                            "modules"
+                        ],
+                        "patch": "modules/nf-core/samtools/mpileup/samtools-mpileup.diff"
+                    },
+                    "samtools/sort": {
+                        "branch": "master",
+                        "git_sha": "f4596fe0bdc096cf53ec4497e83defdb3a94ff62",
+                        "installed_by": [
+                            "modules"
+                        ],
+                        "patch": "modules/nf-core/samtools/sort/samtools-sort.diff"
+                    },
+                    "tabix/bgzip": {
+                        "branch": "master",
+                        "git_sha": "3f5420aa22e00bd030a2556dfdffc9e164ec0ec5",
+                        "installed_by": [
+                            "modules"
+                        ],
+                        "patch": "modules/nf-core/tabix/bgzip/tabix-bgzip.diff"
+                    },
+                    "vardictjava": {
+                        "branch": "master",
+                        "git_sha": "3f5420aa22e00bd030a2556dfdffc9e164ec0ec5",
+                        "installed_by": [
+                            "modules"
+                        ],
+                        "patch": "modules/nf-core/vardictjava/vardictjava.diff"
+                    }
+                }
             },
-            "custom/dumpsoftwareversions": {
-                "git_sha": "e745e167c1020928ef20ea1397b6b4d230681b4d"
-            },
-            "fastqc": {
-                "git_sha": "e745e167c1020928ef20ea1397b6b4d230681b4d"
-            },
-            "multiqc": {
-                "git_sha": "e745e167c1020928ef20ea1397b6b4d230681b4d"
-            },
-            "samtools/mpileup": {
-                "git_sha": "5e7b1ef9a5a2d9258635bcbf70fcf37dacd1b247"
-            },
-            "samtools/sort": {
-                "git_sha": "897c33d5da084b61109500ee44c01da2d3e4e773"
-            },
-            "tabix/bgzip": {
-                "git_sha": "5e7b1ef9a5a2d9258635bcbf70fcf37dacd1b247"
-            },
-            "vardictjava": {
-                "git_sha": "eab173f2bb8c44223bbe533ea169557455c9ceee"
+            "subworkflows": {
+                "nf-core": {}
             }
         }
     }

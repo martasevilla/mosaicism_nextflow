@@ -2,10 +2,10 @@
 // Ejecuta todos los pasos necesarios para usar Varscan (samtools_sort, samtools_mpileup, unzip, varscan)
 //
 
-include { SAMTOOLS_SORT } from '../../modules/nf-core/modules/samtools/sort/main'
-include { SAMTOOLS_MPILEUP } from '../../modules/nf-core/modules/samtools/mpileup/main'
+include { SAMTOOLS_SORT } from '../../modules/nf-core/samtools/sort/main'
+include { SAMTOOLS_MPILEUP } from '../../modules/nf-core/samtools/mpileup/main'
 include { VARSCAN } from '../../modules/local/varscan/main'
-include { TABIX_BGZIP } from "../../modules/nf-core/modules/tabix/bgzip/main"
+include { TABIX_BGZIP } from "../../modules/nf-core/tabix/bgzip/main"
 
 workflow VARSCAN_WF {
     take:
