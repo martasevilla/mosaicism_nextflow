@@ -19,6 +19,8 @@ if (params.input) { ch_input = file(params.input) } else { exit 1, 'Input sample
 if (params.fasta) { ch_fasta = file(params.fasta) } else { exit 1, 'Fasta file not specified!' }
 if (params.fai) { ch_fasta_fai = file(params.fai) } else { exit 1, 'Fai file not specified!' }
 if (params.chrom_sizes) { ch_chrom_sizes = file(params.chrom_sizes) } else { exit 1, 'chrom.sizes file not specified!' }
+if (params.germline_resource) { ch_germline_resource = file(params.germline_resource) } else { exit 1, 'germline_resource VCF file not specified!' }
+if (params.germline_resource_tbi) { ch_germline_resource_tbi = file(params.germline_resource_tbi) } else { exit 1, 'germline_resource TBI file not specified!' }
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -41,7 +43,7 @@ if (params.chrom_sizes) { ch_chrom_sizes = file(params.chrom_sizes) } else { exi
 
 include { INPUT_CHECK } from '../subworkflows/local/input_check'
 include { VARSCAN_WF } from '../subworkflows/local/varscan_workflow'
-
+include { BAM_TUMOR_ONLY_SOMATIC_VARIANT_CALLING_GATK } from '../subworkflows/nf-core/bam_tumor_only_somatic_variant_calling_gatk/main'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -86,6 +88,15 @@ workflow MOSAICISM {
     )
 
   ch_versions = ch_versions.mix(VARSCAN_WF.out.ch_versions)
+  
+  //
+  // SUBWORKFLOW: Run Mutect2 and related software
+  //
+  BAM_TUMOR_ONLY_SOMATIC_VARIANT_CALLING_GATK(
+    INPUT_CHECK.out.reads_bam_bai, Channel.fromPath(ch_fasta).first(), Channel.fromPath(ch_fasta_fai).first(), Channel.fromPath(ch_germline_resource).first(), Channel.fromPath(ch_germline_resource_tbi).first(), INPUT_CHECK.out.reads_bed
+  )
+  
+  ch_versions = ch_versions.mix(BAM_TUMOR_ONLY_SOMATIC_VARIANT_CALLING_GATK.out.versions.first())
 
   //
   // MODULE: Run Vardictjava

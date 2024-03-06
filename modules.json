@@ -21,6 +21,21 @@
                         ],
                         "patch": "modules/nf-core/custom/dumpsoftwareversions/custom-dumpsoftwareversions.diff"
                     },
+                    "gatk4/createsequencedictionary": {
+                        "branch": "master",
+                        "git_sha": "d742e3143f2ccb8853c29b35cfcf50b5e5026980",
+                        "installed_by": [
+                            "bam_tumor_only_somatic_variant_calling_gatk"
+                        ]
+                    },
+                    "gatk4/mutect2": {
+                        "branch": "master",
+                        "git_sha": "d742e3143f2ccb8853c29b35cfcf50b5e5026980",
+                        "installed_by": [
+                            "bam_tumor_only_somatic_variant_calling_gatk"
+                        ],
+                        "patch": "modules/nf-core/gatk4/mutect2/gatk4-mutect2.diff"
+                    },
                     "samtools/mpileup": {
                         "branch": "master",
                         "git_sha": "f4596fe0bdc096cf53ec4497e83defdb3a94ff62",
@@ -56,7 +71,15 @@
                 }
             },
             "subworkflows": {
-                "nf-core": {}
+                "nf-core": {
+                    "bam_tumor_only_somatic_variant_calling_gatk": {
+                        "branch": "master",
+                        "git_sha": "cfd937a668919d948f6fcbf4218e79de50c2f36f",
+                        "installed_by": [
+                            "subworkflows"
+                        ]
+                    }
+                }
             }
         }
     }
