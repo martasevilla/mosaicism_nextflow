@@ -2,8 +2,8 @@
 // Run GATK mutect2 in tumor only mode, getepileupsummaries, calculatecontamination and filtermutectcalls
 //
 
-include { GATK4_CREATESEQUENCEDICTIONARY } from '../../../modules/nf-core/gatk4/createsequencedictionary'
-include { GATK4_MUTECT2                as MUTECT2 }                  from '../../../modules/nf-core/gatk4/mutect2/main'
+include { GATK4_CREATESEQUENCEDICTIONARY } from '../../modules/nf-core/gatk4/createsequencedictionary'
+include { GATK4_MUTECT2                as MUTECT2 }                  from '../../modules/nf-core/gatk4/mutect2/main'
 // include { GATK4_GETPILEUPSUMMARIES     as GETPILEUPSUMMARIES }       from '../../../modules/nf-core/gatk4/getpileupsummaries/main'
 // include { GATK4_CALCULATECONTAMINATION as CALCULATECONTAMINATION }   from '../../../modules/nf-core/gatk4/calculatecontamination/main'
 // include { GATK4_FILTERMUTECTCALLS      as FILTERMUTECTCALLS }        from '../../../modules/nf-core/gatk4/filtermutectcalls/main'

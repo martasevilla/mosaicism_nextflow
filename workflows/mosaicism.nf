@@ -43,7 +43,7 @@ if (params.germline_resource_tbi) { ch_germline_resource_tbi = file(params.germl
 
 include { INPUT_CHECK } from '../subworkflows/local/input_check'
 include { VARSCAN_WF } from '../subworkflows/local/varscan_workflow'
-include { BAM_TUMOR_ONLY_SOMATIC_VARIANT_CALLING_GATK } from '../subworkflows/nf-core/bam_tumor_only_somatic_variant_calling_gatk/main'
+include { BAM_TUMOR_ONLY_SOMATIC_VARIANT_CALLING_GATK } from '../subworkflows/local/bam_tumor_only_somatic_variant_calling_gatk'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
