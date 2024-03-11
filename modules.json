@@ -10,40 +10,50 @@
                         "git_sha": "575e1bc54b083fb15e7dd8b5fcc40bea60e8ce83",
                         "installed_by": [
                             "modules"
-                        ],
-                        "patch": "modules/nf-core/bedtools/intersect/bedtools-intersect.diff"
+                        ]
                     },
                     "custom/dumpsoftwareversions": {
                         "branch": "master",
                         "git_sha": "de45447d060b8c8b98575bc637a4a575fd0638e1",
                         "installed_by": [
                             "modules"
+                        ]
+                    },
+                    "gatk4/createsequencedictionary": {
+                        "branch": "master",
+                        "git_sha": "d742e3143f2ccb8853c29b35cfcf50b5e5026980",
+                        "installed_by": [
+                            "bam_tumor_only_somatic_variant_calling_gatk"
+                        ]
+                    },
+                    "gatk4/mutect2": {
+                        "branch": "master",
+                        "git_sha": "d742e3143f2ccb8853c29b35cfcf50b5e5026980",
+                        "installed_by": [
+                            "bam_tumor_only_somatic_variant_calling_gatk"
                         ],
-                        "patch": "modules/nf-core/custom/dumpsoftwareversions/custom-dumpsoftwareversions.diff"
+                        "patch": "modules/nf-core/gatk4/mutect2/gatk4-mutect2.diff"
                     },
                     "samtools/mpileup": {
                         "branch": "master",
                         "git_sha": "f4596fe0bdc096cf53ec4497e83defdb3a94ff62",
                         "installed_by": [
                             "modules"
-                        ],
-                        "patch": "modules/nf-core/samtools/mpileup/samtools-mpileup.diff"
+                        ]
                     },
                     "samtools/sort": {
                         "branch": "master",
                         "git_sha": "f4596fe0bdc096cf53ec4497e83defdb3a94ff62",
                         "installed_by": [
                             "modules"
-                        ],
-                        "patch": "modules/nf-core/samtools/sort/samtools-sort.diff"
+                        ]
                     },
                     "tabix/bgzip": {
                         "branch": "master",
                         "git_sha": "3f5420aa22e00bd030a2556dfdffc9e164ec0ec5",
                         "installed_by": [
                             "modules"
-                        ],
-                        "patch": "modules/nf-core/tabix/bgzip/tabix-bgzip.diff"
+                        ]
                     },
                     "vardictjava": {
                         "branch": "master",
@@ -54,9 +64,6 @@
                         "patch": "modules/nf-core/vardictjava/vardictjava.diff"
                     }
                 }
-            },
-            "subworkflows": {
-                "nf-core": {}
             }
         }
     }

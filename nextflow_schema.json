@@ -76,6 +76,20 @@
           "format": "file-path",
           "mimetype": "text/plain"
         },
+        "germline_resource": {
+          "type": "string",
+          "description": "Path to VCF with variants AF in the population",
+          "help_text": "VCF containing AF for variants in the population of interest.",
+          "pattern": "^\\S+\\.vcf\\.gz$",
+          "format": "file-path"
+        },
+        "germline_resource_tbi": {
+          "type": "string",
+          "description": "Path to TBI for variants AF in the population",
+          "help_text": "TBI for VCF containing AF for variants in the population of interest.",
+          "pattern": "^\\S+\\.vcf.gz\\.tbi$",
+          "format": "file-path"
+        },
         "igenomes_base": {
           "type": "string",
           "format": "directory-path",
@@ -92,7 +106,13 @@
           "help_text": "Do not load `igenomes.config` when running the pipeline. You may choose this option if you observe clashes between custom parameters and those supplied in `igenomes.config`."
         }
       },
-      "required": ["fasta", "fai", "chrom_sizes"]
+      "required": [
+        "fasta",
+        "fai",
+        "chrom_sizes",
+        "germline_resource",
+        "germline_resource_tbi"
+      ]
     },
     "institutional_config_options": {
       "title": "Institutional config options",
