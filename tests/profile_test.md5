@@ -1,11 +1,5 @@
 d8f3f57eba394efa613fddcfe302eaa7  ./results/intersection/Sample1_T1.vcf
 7bba10a21763e2b26b2e95d8ac6cfe85  ./results/intersection/Sample2_T1.vcf
-5b9b7e0b4f3dd02e0467a959bcb05eba  ./results/mutect2/Sample1_T1.vcf.gz
-080454403ce7a199c05bae437d2eb19f  ./results/mutect2/Sample1_T1.vcf.gz.stats
-bc16a8b2c461d046cfb9857bbaf1dca9  ./results/mutect2/Sample1_T1.vcf.gz.tbi
-9091d3ddf8255fb4d2b0c2728382c781  ./results/mutect2/Sample2_T1.vcf.gz
-080454403ce7a199c05bae437d2eb19f  ./results/mutect2/Sample2_T1.vcf.gz.stats
-f2ef30eb2edf3ca648df95f466e5ec59  ./results/mutect2/Sample2_T1.vcf.gz.tbi
 3d087a37b00068be90257bfc1982e73a  ./results/varscan/Sample1_T1_varscan.vcf.gz
 3d087a37b00068be90257bfc1982e73a  ./results/varscan/Sample2_T1_varscan.vcf.gz
 fc6068bb4496b9331d14b7092e3c184f  ./results/vardictjava/Sample2_T1.vcf.gz

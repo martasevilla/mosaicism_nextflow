@@ -5,7 +5,7 @@ process VARDICTJAVA {
     conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'https://depot.galaxyproject.org/singularity/vardict-java:1.8.3--hdfd78af_0':
-        'biocontainers/vardict-java:1.8.3--hdfd78af_0' }"
+        'quay.io/biocontainers/vardict-java:1.8.3--hdfd78af_0' }"
 
     input:
     tuple val(meta), path(bams), path(bais), path(bed)
@@ -13,7 +13,7 @@ process VARDICTJAVA {
     tuple val(meta3), path(fasta_fai)
 
     output:
-    tuple val(meta), path("*.vcf.gz"), emit: vcf
+    tuple val(meta), path("*.vcf"), emit: vcf
     path "versions.yml"           , emit: versions
 
     when:
@@ -39,7 +39,7 @@ process VARDICTJAVA {
     | ${filter} \\
     | ${convert_to_vcf} \\
         ${args2} \\
-        | gzip -c > ${prefix}.vcf.gz
+    > ${prefix}.vcf
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

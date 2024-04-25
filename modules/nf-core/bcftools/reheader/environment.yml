@@ -1,7 +1,7 @@
-name: custom_dumpsoftwareversions
+name: bcftools_reheader
 channels:
   - conda-forge
   - bioconda
   - defaults
 dependencies:
-  - bioconda::multiqc=1.20
+  - bioconda::bcftools=1.18
