@@ -5,7 +5,7 @@ include { TABIX_TABIX as TABIX_TABIX_2 } from '../../modules/nf-core/tabix/tabix
 include { TABIX_TABIX as TABIX_TABIX_3 } from '../../modules/nf-core/tabix/tabix/main'
 include { BCFTOOLS_ANNOTATE } from '../../modules/nf-core/bcftools/annotate/main'
 include { FORMAT_AF_FILE } from '../../modules/local/formataf/main'
-include { HDR } from '../../modules/local/hdr/main'
+include { CREATE_HEADER } from '../../modules/local/create_header/main'
 include { BCFTOOLS_QUERY } from '../../modules/nf-core/bcftools/query/main'
 
 
@@ -85,14 +85,14 @@ workflow PROCESSING_VARSCAN {
 
    ch_versions = ch_versions.mix(TABIX_TABIX_2.out.versions.first())
 
-   HDR(
+   CREATE_HEADER(
    )
 
     ch_vcf=varscan_gz
     ch_index=varscan_tabix
     ch_anno=TABIX_BGZIP_2.out.output
     ch_anno_index=TABIX_TABIX_2.out.tbi
-    ch_header=HDR.out.hdr
+    ch_header=CREATE_HEADER.out.hdr
 
     ch_vcf.join(ch_index).join(ch_anno).join(ch_anno_index).combine(ch_header).set { ch_annotate_in }
 
