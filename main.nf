@@ -19,9 +19,6 @@ nextflow.enable.dsl = 2
 
 params.fasta = WorkflowMain.getGenomeAttribute(params, 'fasta')
 params.fai = WorkflowMain.getGenomeAttribute(params, 'fai')
-params.chrom_sizes = WorkflowMain.getGenomeAttribute(params, 'chrom_sizes')
-params.germline_resource = WorkflowMain.getGenomeAttribute(params, 'germline_resource')
-params.germline_resource_tbi = WorkflowMain.getGenomeAttribute(params, 'germline_resource_tbi')
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
