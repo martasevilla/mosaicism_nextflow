@@ -5,7 +5,7 @@ process VARSCAN {
     conda (params.enable_conda ? "bioconda::varscan=2.4.4" : null)
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'https://depot.galaxyproject.org/singularity/varscan:2.4.4--hdfd78af_1':
-        'quay.io/biocontainers/varscan:2.4.4--hdfd78af_1' }"
+        'biocontainers/varscan:2.4.4--hdfd78af_1' }"
 
     input:
     tuple val(meta), path(mpileup)
