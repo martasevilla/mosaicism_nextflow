@@ -1,6 +1,8 @@
-d8f3f57eba394efa613fddcfe302eaa7  ./results/intersection/Sample1_T1.vcf
-7bba10a21763e2b26b2e95d8ac6cfe85  ./results/intersection/Sample2_T1.vcf
-3d087a37b00068be90257bfc1982e73a  ./results/varscan/Sample1_T1_varscan.vcf.gz
-3d087a37b00068be90257bfc1982e73a  ./results/varscan/Sample2_T1_varscan.vcf.gz
-fc6068bb4496b9331d14b7092e3c184f  ./results/vardictjava/Sample2_T1.vcf.gz
-68e6ef004b3faaf6f9e9d33c57ca7fdc  ./results/vardictjava/Sample1_T1.vcf.gz
+21140b35b4b1ed4efc761333df8b9227  ./results/vardictjava/Sample_zenodo_T1.vcf.gz
+ad84b748d24f7210fa8a66a2b923c629  ./results/vardictjava/Sample_zenodo_T1.mpileup
+709872fc2910431b1e8b7074bfe38c67  ./results/vardictjava/Sample_zenodo_T1.txt.gz
+2ebda5a770ab60c0be5a9b4fc5f23152  ./results/mutect2/Sample_zenodo_T1.mutect2.vcf.gz.tbi
+944d407e7ef056949218d2e6e9172c86  ./results/mutect2/Sample_zenodo_T1.mutect2.vcf.gz.stats
+b689dc3bc4c1fd725575250e89451d46  ./results/mutect2/Sample_zenodo_T1.mutect2.vcf.gz
+f8f00d0a9d57dd2928a4b04c9e693b04  ./results/join/Sample_zenodo_T1.vcf.gz
+50f2173e7903cb5d4999d324a450be70  ./results/varscan/Sample_zenodo_T1.v2.vcf.gz
