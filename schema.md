@@ -20,7 +20,9 @@ Reference genome related files and options required for the workflow.
 |-----------|-----------|-----------|-----------|-----------|-----------|
 | `fasta` | Path to FASTA genome file. <details><summary>Help</summary><small>Reference fasta file. </small></details>| `string` |  |  |  |
 | `fai` | Path to fai genome file. <details><summary>Help</summary><small>Reference fasta file index. </small></details>| `string` |  |  |  |
-
+| `chrom_sizes` | Path to genome chrom.sizes file. <details><summary>Help</summary><small>Two-column tab-separated text file containing assembly sequence names and sizes. </small></details>| `string` |  |  |  |
+| `germline_resource` | Path to VCF with variants AF in the population. <details><summary>Help</summary><small>VCF containing AF for variants in the population of interest. </small></details>| `string` |  |  |  |
+| `germline_resource_tbi` | Path to TBI for variants AF in the population. <details><summary>Help</summary><small>TBI for VCF containing AF for variants in the population of interest. </small></details>| `string` |  |  |  |
 
 ## Institutional config options
 

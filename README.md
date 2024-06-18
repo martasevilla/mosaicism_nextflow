@@ -40,7 +40,13 @@ This pipeline uses two variant callers to detect low frequency variants, VarScan
 
 2.1. Variant Calling ([`VarDictJava`](https://github.com/AstraZeneca-NGS/VarDictJava))
 
-3. Intersection of both VCF files ([`Bedtools`](https://bedtools.readthedocs.io/en/latest/))
+3. Mutect2 ([Mutect2](https://gatk.broadinstitute.org/hc/en-us/articles/21905083931035-Mutect2))
+
+3.1 Generate reference sequence dictionary ([CreateSequenceDictionary](https://gatk.broadinstitute.org/hc/en-us/articles/21905059452187-CreateSequenceDictionary-Picard))
+
+3.2 Variant Calling ([Mutect2](https://gatk.broadinstitute.org/hc/en-us/articles/21905083931035-Mutect2))
+
+4. Intersection of the three VCF files ([`Bedtools`](https://bedtools.readthedocs.io/en/latest/))
 
 ## Quick Start
 
@@ -51,8 +57,8 @@ This pipeline uses two variant callers to detect low frequency variants, VarScan
 3. Download the pipeline and test it on a minimal dataset with a single command:
 
    ```console
-   nextflow pull CIBERER-pipelines/mosaicism_nextflow
-   nextflow run CIBERER-pipelines/mosaicism_nextflow -profile test,YOURPROFILE --outdir <OUTDIR>
+   nextflow pull CIBERER/GdTBioinfo-nf-mosaicism
+   nextflow run CIBERER/GdTBioinfo-nf-mosaicism -profile test,YOURPROFILE --outdir <OUTDIR>
    ```
 
    Then, download the [profile_test.md5](./tests/profile_test.md5) file, locate it in the root folder and run the next command:
@@ -64,12 +70,14 @@ This pipeline uses two variant callers to detect low frequency variants, VarScan
    If the output is like this, everything is working fine!:
 
    ```console
-   ./results/intersection/Sample1_T1.vcf: OK
-   ./results/intersection/Sample2_T1.vcf: OK
-   ./results/varscan/Sample1_T1_varscan.vcf.gz: OK
-   ./results/varscan/Sample2_T1_varscan.vcf.gz: OK
-   ./results/vardictjava/Sample2_T1.vcf.gz: OK
-   ./results/vardictjava/Sample1_T1.vcf.gz: OK
+   ./results/join/Sample_zenodo_T1.vcf: OK
+   ./results/mutect2/Sample_zenodo_T1.mutect2.vcf.gz: OK
+   ./results/mutect2/Sample_zenodo_T1.mutect2.vcf.gz.stats: OK
+   ./results/mutect2/Sample_zenodo_T1.mutect2.vcf.gz.tbi: OK
+   ./results/vardictjava/Sample_zenodo_T1.mpileup: OK
+   ./results/vardictjava/Sample_zenodo_T1.txt.gz: OK
+   ./results/vardictjava/Sample_zenodo_T1..vcf.gz: OK
+   ./results/varscan/Sample_zenodo_T1.v2.vcf.gz: OK
    ```
 
    Note that some form of configuration will be needed so that Nextflow knows how to fetch the required software. This is usually done in the form of a config profile (`YOURPROFILE` in the example command above). You can chain multiple config profiles in a comma-separated string.
@@ -84,7 +92,7 @@ This pipeline uses two variant callers to detect low frequency variants, VarScan
    <!-- TODO nf-core: Update the example "typical command" below used to run the pipeline -->
 
    ```console
-   nextflow run CIBERER-pipelines/mosaicism_nextflow --input samplesheet.csv --outdir <OUTDIR> --fasta path/to/reference/genome.fa --fai path/to/reference/genome.fa.fai -profile <docker/singularity/podman/shifter/charliecloud/conda/institute>
+   nextflow run CIBERER/GdTBioinfo-nf-mosaicism --input path/to/samplesheet.csv --outdir <OUTDIR> --fasta path/to/reference/genome.fa --fai path/to/reference/genome.fa.fai --chrom_sizes path/to/referece/chrom.sizes --germline_resource path/to/population/germline_resource.vcf.gz --germline_resource_tbi path/to/population/germline_resource.vcf.gz.tbi -profile <docker/singularity/podman/shifter/charliecloud/conda/institute>
    ```
 
 ## Documentation
@@ -101,6 +109,8 @@ Main authors:
 - [Carlos Ruiz](https://github.com/yocra3)
 - [Marta Sevilla](https://github.com/martasevilla)
 - [Yolanda Benítez](https://github.com/yolandabq)
+- [Pedro Garrido](https://github.com/pedro-garridor)
+- [Paula Iborra](https://github.com/paulaidt)
 
 ## Contributions and Support
 
@@ -116,8 +126,9 @@ carlos.ruiza@upf.edu, marta.sevilla@upf.edu or yolanda.benitez@ciberer.es
 1. VarScan ([`VarScan`](https://varscan.sourceforge.net/))
 2. Samtools ([`Samtools`](http://www.htslib.org/))
 3. VarDictJava ([`VarDictJava`](https://github.com/AstraZeneca-NGS/VarDictJava))
-4. Bedtools [`Bedtools`](https://bedtools.readthedocs.io/en/latest/)
-5. Tabix([`Tabix`](http://www.htslib.org/doc/tabix.html))
+4. Mutect2 ([GATK](https://gatk.broadinstitute.org/hc/en-us))
+5. Bedtools [`Bedtools`](https://bedtools.readthedocs.io/en/latest/)
+6. Tabix([`Tabix`](http://www.htslib.org/doc/tabix.html))
 
 
 <!-- TODO nf-core: Add citation for pipeline after first release. Uncomment lines below and update Zenodo doi and badge at the top of this file. -->
