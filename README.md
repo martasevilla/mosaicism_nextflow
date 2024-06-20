@@ -1,4 +1,4 @@
-![CIBERER/GdTBioinfo-nf-mosaicism](docs\images\ciberer_logo.png)
+# ![CIBERER/GdTBioinfo-nf-mosaicism](docs/images/ciberer_logo.png)
 
 <!--[![GitHub Actions CI Status](https://github.com/CIBERER/GdTBioinfo-nf-mosaicism /workflows/nf-core%20CI/badge.svg)](https://github.com/CIBERER/GdTBioinfo-nf-mosaicism /actions?query=workflow%3A%22nf-core+CI%22)
 [![GitHub Actions Linting Status](https://github.com/CIBERER/GdTBioinfo-nf-mosaicism /workflows/nf-core%20linting/badge.svg)](https://github.com/CIBERER/GdTBioinfo-nf-mosaicism /actions?query=workflow%3A%22nf-core+linting%22) -->
