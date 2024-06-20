@@ -1,4 +1,4 @@
-# CIBERER-pipelines/mosaicism : Usage
+# CIBERER/GdTBioinfo-nf-mosaicism : Usage
 
 
 ## Samplesheet input

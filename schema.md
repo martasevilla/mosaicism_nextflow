@@ -1,4 +1,4 @@
-# nf-core/mosaicism pipeline parameters
+# CIBERER/GdTBioinfo-nf-mosaicism pipeline parameters
 
 Detection of mosaicism through NGS data
 

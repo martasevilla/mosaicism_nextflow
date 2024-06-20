@@ -1,7 +1,7 @@
-# ![CIBERER/GdTBioinfo-nf-mosaicism](docs/images/nf-core-mosaicism_logo_light.png#gh-light-mode-only) ![CIBERER/GdTBioinfo-nf-mosaicism ](docs/images/nf-core-mosaicism_logo_dark.png#gh-dark-mode-only)
+# ![CIBERER/GdTBioinfo-nf-mosaicism](docs\images\ciberer_logo.png)
 
-[![GitHub Actions CI Status](https://github.com/CIBERER/GdTBioinfo-nf-mosaicism /workflows/nf-core%20CI/badge.svg)](https://github.com/CIBERER/GdTBioinfo-nf-mosaicism /actions?query=workflow%3A%22nf-core+CI%22)
-[![GitHub Actions Linting Status](https://github.com/CIBERER/GdTBioinfo-nf-mosaicism /workflows/nf-core%20linting/badge.svg)](https://github.com/CIBERER/GdTBioinfo-nf-mosaicism /actions?query=workflow%3A%22nf-core+linting%22)
+<!--[![GitHub Actions CI Status](https://github.com/CIBERER/GdTBioinfo-nf-mosaicism /workflows/nf-core%20CI/badge.svg)](https://github.com/CIBERER/GdTBioinfo-nf-mosaicism /actions?query=workflow%3A%22nf-core+CI%22)
+[![GitHub Actions Linting Status](https://github.com/CIBERER/GdTBioinfo-nf-mosaicism /workflows/nf-core%20linting/badge.svg)](https://github.com/CIBERER/GdTBioinfo-nf-mosaicism /actions?query=workflow%3A%22nf-core+linting%22) -->
 
 [![Nextflow](https://img.shields.io/badge/nextflow%20DSL2-%E2%89%A521.10.3-23aa62.svg)](https://www.nextflow.io/)
 [![run with conda](http://img.shields.io/badge/run%20with-conda-3EB049?logo=anaconda)](https://docs.conda.io/en/latest/)
@@ -9,9 +9,9 @@
 [![run with singularity](https://img.shields.io/badge/run%20with-singularity-1d355c.svg)](https://sylabs.io/docs/)
 [![Launch on Nextflow Tower](https://img.shields.io/badge/Launch%20%F0%9F%9A%80-Nextflow%20Tower-%234256e7)](https://tower.nf/launch?pipeline=https://github.com/CIBERER/GdTBioinfo-nf-mosaicism )
 
-[![Get help on Slack](http://img.shields.io/badge/slack-nf--core%20%23mosaicism-4A154B?logo=slack)](https://nfcore.slack.com/channels/mosaicism)
-[![Follow on Twitter](http://img.shields.io/badge/twitter-%40nf__core-1DA1F2?logo=twitter)](https://twitter.com/nf_core)
-[![Watch on YouTube](http://img.shields.io/badge/youtube-nf--core-FF0000?logo=youtube)](https://www.youtube.com/c/nf-core)
+<!-- [![Get help on Slack](http://img.shields.io/badge/slack-nf--core%20%23mosaicism-4A154B?logo=slack)](https://nfcore.slack.com/channels/mosaicism) -->
+[![Follow on Twitter](https://img.shields.io/badge/twitter-%40CIBERER-1DA1F2?logo=twitter)](https://twitter.com/CIBERER)
+[![Watch on YouTube](https://img.shields.io/badge/youtube-CentrodeInvestigaci%C3%B3nCIBER-FF0000?logo=youtube)](https://www.youtube.com/c/CentrodeInvestigaci%C3%B3nCIBER)
 
 ## Introduction
 
@@ -138,10 +138,11 @@ carlos.ruiza@upf.edu, marta.sevilla@upf.edu or yolanda.benitez@ciberer.es
 
 An extensive list of references for the tools used by the pipeline can be found in the [`CITATIONS.md`](CITATIONS.md) file.
 
-You can cite the `nf-core` publication as follows:
-
-> **The nf-core framework for community-curated bioinformatics pipelines.**
+This pipeline uses code and infrastructure developed and maintained by the [nf-core](https://nf-co.re) community, reused here under the [MIT license](https://github.com/nf-core/tools/blob/master/LICENSE).
+ 
+> The nf-core framework for community-curated bioinformatics pipelines.
 >
 > Philip Ewels, Alexander Peltzer, Sven Fillinger, Harshil Patel, Johannes Alneberg, Andreas Wilm, Maxime Ulysse Garcia, Paolo Di Tommaso & Sven Nahnsen.
 >
-> _Nat Biotechnol._ 2020 Feb 13. doi: [10.1038/s41587-020-0439-x](https://dx.doi.org/10.1038/s41587-020-0439-x).
+> Nat Biotechnol. 2020 Feb 13. doi: 10.1038/s41587-020-0439-x.
+> In addition, references of tools and data used in this pipeline are as follows:

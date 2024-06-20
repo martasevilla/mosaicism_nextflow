@@ -1,4 +1,4 @@
-# CIBERER-pipelines/mosaicism: Output
+# CIBERER/GdTBioinfo-nf-mosaicism: Output
 
 # Introduction
 
