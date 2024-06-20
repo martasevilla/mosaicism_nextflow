@@ -1,4 +1,4 @@
-# CIBERER-pipelines/mosaicism: Output
+# CIBERER/GdTBioinfo-nf-mosaicism: Output
 
 # Introduction
 
@@ -16,6 +16,8 @@ The pipeline is built using [Nextflow](https://www.nextflow.io/) and processes d
 - [Tabix](#tabix) - It unzips the mpileup file.
 - [VarDictJava](#vardictjava) - VCF file obtained by VarDict variant caller.
 - [VarScan](#varscan) - VCF file obtained by VarScan variant caller.
+- [CreateSequenceDictionary](#createsequencedictionary) - Generate genome dictionary for Mutect2.
+- [Mutect2](#mutect2) - VCF file obtained by Mutect2 variant caller.
 - [Bedtools](#bedtools) - Final VCF file obtained after intersecting both VCF files.  
 - [Pipeline information](#pipeline-information) - Report metrics generated during the workflow execution
 
@@ -81,6 +83,54 @@ The parameters used in VarScan can be found in the module file of [VarScan](../m
 varscan mpileup2snp ${mpileup} --min-var-freq 0.05 --p-value 1 --output-vcf 1
 ```
 
+<!--
+### CreateSequenceDictionary
+
+<details markdown="1">
+<summary>Input files</summary>
+
+- `reference fasta file`
+
+</details>
+
+<details markdown="1">
+<summary>Output files</summary>
+
+- `CreateSequenceDictionary/*.dict`
+
+</details>
+
+[CreateSequenceDictionary](https://gatk.broadinstitute.org/hc/en-us/articles/21905059452187-CreateSequenceDictionary-Picard) creates a sequence dictionary for a reference sequence. This tool creates a sequence dictionary file (with ".dict" extension) from a reference sequence provided in FASTA format, which is required by many processing and analysis tools. The output file contains a header but no SAMRecords, and the header contains only sequence records.
+-->
+
+### Mutect2
+
+<details markdown="1">
+<summary>Input files</summary>
+
+- `bam file`
+- `bam.bai file`
+- `bed file containing the regions of interest`
+- `reference fasta file`
+- `reference fasta.fai file`
+- `reference dict file`
+- `vcf germline resouce file`
+- `vcf.tbi germline resource file`
+
+</details>
+
+<details markdown="1">
+<summary>Output files</summary>
+
+- `mutect2/`
+  - `*.vcf.gz`
+  - `*.vcf.gz.tbi`
+  - `*.vcf.gz.stats`
+
+</details>
+
+[Mutect2](https://gatk.broadinstitute.org/hc/en-us/articles/21905083931035-Mutect2) calls somatic short mutations via local assembly of haplotypes. Short mutations include single nucleotide (SNA) and insertion and deletion (indel) alterations. The caller uses a Bayesian somatic genotyping model that differs from the original MuTect by [Cibulskis et al., 2013](http://www.nature.com/nbt/journal/v31/n3/full/nbt.2514.html) and uses the assembly-based machinery of [HaplotypeCaller](https://software.broadinstitute.org/gatk/documentation/tooldocs/current/org_broadinstitute_hellbender_tools_walkers_haplotypecaller_HaplotypeCaller.php).
+
 ### Bedtools
 
 <details markdown="1">
@@ -88,17 +138,18 @@ varscan mpileup2snp ${mpileup} --min-var-freq 0.05 --p-value 1 --output-vcf 1
 
 - `vcf file 1`
 - `vcf file 2`
+- `vcf file 3`
 
 </details>
 
 <details markdown="1">
 <summary>Output files</summary>
 
-- `intersection/*.vcf` : vcf containing the intersection between both variant callers.
+- `join/*.vcf.gz` : vcf containing the intersection between the variant callers.
 
 </details>
 
-[Bedtools](https://bedtools.readthedocs.io/en/latest/) perform the intersection of the vcf obtained by both variant callers. This way, we keep the variants that are more likely to be real variants.
+[Bedtools](https://bedtools.readthedocs.io/en/latest/) perform the intersection of the vcf obtained by the three variant callers. This way, we keep the variants that are more likely to be real variants.
 
 ### Pipeline information
 
