@@ -5,13 +5,13 @@ process VARSCAN {
     conda (params.enable_conda ? "bioconda::varscan=2.4.4" : null)
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'https://depot.galaxyproject.org/singularity/varscan:2.4.4--hdfd78af_1':
-        'quay.io/biocontainers/varscan:2.4.4--hdfd78af_1' }"
+        'biocontainers/varscan:2.4.4--hdfd78af_1' }"
 
     input:
     tuple val(meta), path(mpileup)
 
     output:									// It defines the output of the process (i.e. files) and send to a new channel
-    tuple val(meta), path("*.vcf.gz"), emit: vcf_varscan
+    tuple val(meta), path("*.vcf"), emit: vcf_varscan
     path  "versions.yml", emit: versions
 
     when:
@@ -22,7 +22,7 @@ process VARSCAN {
     def prefix = task.ext.prefix ?: "${meta.id}"
 
     """
-        varscan mpileup2snp ${mpileup} --min-var-freq 0.05 --p-value 1 --output-vcf 1 | gzip -c > ${prefix}_varscan.vcf.gz
+        varscan mpileup2snp ${mpileup} --min-var-freq 0.05 --p-value 1 --output-vcf 1 > ${prefix}_varscan.vcf
         cat <<-END_VERSIONS > versions.yml
         #"${task.process}":
         #varscan: \$(echo \$(varscan --version 2>&1) | sed 's/^.*varscan //; s/Using.*\$//' ))
