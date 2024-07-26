@@ -1,0 +1,26 @@
+nextflow_pipeline {
+
+    name "Test Workflow main.nf"
+    script "main.nf"
+
+    test("Minimal test") {
+
+        when {
+            params {
+                input  = "https://raw.githubusercontent.com/CIBERER/GdTBioinfo-nf-mosaicism/dev/testdata/samplesheet_test.csv"
+                fasta = "https://zenodo.org/records/11185276/files/chr17_var_regions.fa"
+                fai = "https://zenodo.org/records/11185276/files/chr17_var_regions.fa.fai"
+                chrom_sizes = "https://zenodo.org/records/11185276/files/chr17_chrom_sizes.txt"
+                germline_resource = "https://zenodo.org/records/11185276/files/chr17_af_gnomad.vcf.gz"
+                germline_resource_tbi = "https://zenodo.org/records/11185276/files/chr17_af_gnomad.vcf.gz.tbi"
+            }
+        }
+
+        then {
+            assert workflow.success
+            assert snapshot(workflow).match() 
+        }
+
+    }
+
+}
