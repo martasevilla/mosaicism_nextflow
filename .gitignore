@@ -15,3 +15,5 @@ oputput_reference_sample/
 *fai
 !chr17_var_regions.fa
 !chr17_var_regions.fa.fai
+.nf-test/
+.nf-test.log
