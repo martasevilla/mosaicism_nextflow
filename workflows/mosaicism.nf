@@ -58,6 +58,7 @@ include { MERGE_WORKFLOW } from '../subworkflows/local/merge_workflow'
 // MODULE: Installed directly from nf-core/modules
 //
 
+include { FASTQ_ALIGN_BWA } from '../subworkflows/nf-core/fastq_align_bwa/main'
 include { CUSTOM_DUMPSOFTWAREVERSIONS } from '../modules/nf-core/custom/dumpsoftwareversions/main'
 include { VARDICTJAVA } from '../modules/nf-core/vardictjava/main'
 include { TABIX_BGZIP as TABIX_BGZIP} from "../modules/nf-core/tabix/bgzip/main"
